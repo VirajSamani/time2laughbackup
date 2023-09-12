@@ -82,24 +82,25 @@ const Img = styled.img`
   margin: 0 auto;
 `;
 
-const LoginForm = () => {
+const SignUpForm = () => {
   return (
     <Center>
       <FormWrapper>
         <Img src={logo} alt="logo" />
-        <CustomTitle style={{ color: "white" }}>Sign In</CustomTitle>
+        <CustomTitle style={{ color: "white" }}>Register</CustomTitle>
+        <CustomInput type="text" placeholder="User Name" />
         <CustomInput type="text" placeholder="Email" />
         <CustomInput type="text" placeholder="Password" />
         <SubmitButton htmlType="submit" size="large">
-          Sign In
+          Register
         </SubmitButton>
         <RegisterText>
-          <span>New to Time2Laugh? </span>
-          <Link to="/register">Register Now</Link>
+          <span>Already Registered? </span>
+          <Link to="/login">Log In</Link>
         </RegisterText>
       </FormWrapper>
     </Center>
   );
 };
 
-export default LoginForm;
+export default SignUpForm;

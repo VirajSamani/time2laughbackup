@@ -1,8 +1,6 @@
 import React from "react";
-import logo from "../../assets/logo.png";
-import CustomContainer from "../../styled-common-components/CustomContainer";
 import { styled } from "styled-components";
-import background from "../../assets/background2.webp";
+import background from "../../assets/bg.jpg";
 import LoginForm from "../../components/LoginForm/LoginForm";
 
 const LoginSection = styled.section`
@@ -28,18 +26,9 @@ const LoginSection = styled.section`
   }
 `;
 
-const Img = styled.img`
-  width: 100%;
-  max-width: 400px; /* Adjust the maximum width as needed */
-  margin: 0 auto; /* Center the image horizontally */
-`;
-
 const Login = () => {
   return (
     <LoginSection image={background}>
-      <CustomContainer fluid>
-        <Img src={logo} alt="logo" />
-      </CustomContainer>
       <LoginForm />
     </LoginSection>
   );
