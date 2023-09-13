@@ -13,36 +13,41 @@ const Center = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding: 100px 0;
+  padding-top: 60px; /* Reduced padding */
+  padding-bottom: 60px; /* Reduced padding */
 `;
 
 const FormItem = styled(Form.Item)`
-  margin-bottom: 28px !important;
+  margin-bottom: 22.4px !important; /* Reduced margin */
 `;
 
 const CustomTitle = styled(Title)`
   text-align: center;
-  margin-top: 28px;
+  margin-top: 22.4px; /* Reduced margin */
+  font-size: 28px !important; /* Reduced font size */
 `;
 
 const RightAlignedButtonWrapper = styled.div`
   display: flex;
-  justify-content: ${(props) => (props.right ? "flex-end" : "flex-start")};
+  justify-content: ${(props) =>
+    props.right
+      ? "flex-end"
+      : "flex-start"}; /* Align the button to the right */
 `;
 
 const SubmitButton = styled(Button)`
-  border-radius: 4px !important;
-  font-size: 18px !important;
+  border-radius: 3.2px !important; /* Reduced border radius */
+  font-size: 14.4px !important; /* Reduced font size */
   font-weight: bold !important;
-  margin: 24px 0 12px !important;
+  margin: 19.2px 0 9.6px !important; /* Reduced margin */
   background-color: #4fb7d0 !important;
   border: none !important;
-  padding: 10px !important;
+  padding: 8px !important; /* Reduced padding */
   height: fit-content !important;
-  width: 30%;
+  width: 24%; /* Reduced width */
 
   @media (max-width: 768px) {
-    font-size: 14px !important;
+    font-size: 11.2px !important; /* Further reduced font size */
   }
 
   &:hover {
@@ -51,11 +56,11 @@ const SubmitButton = styled(Button)`
 `;
 
 const RegisterText = styled.div`
-  padding-top: 50px;
+  padding-top: 40px; /* Reduced padding */
   color: #737373;
-  font-size: 20px;
+  font-size: 16px; /* Reduced font size */
   font-weight: 400;
-  margin-top: 16px;
+  margin-top: 12.8px; /* Reduced margin */
 
   a {
     color: white;
@@ -65,15 +70,19 @@ const RegisterText = styled.div`
   a:hover {
     text-decoration: underline;
   }
+
+  @media (max-width: 768px) {
+    font-size: 12.8px; /* Further reduced font size */
+  }
 `;
 
 const CustomInput = styled(Input)`
   background-color: #333333;
   border: none;
-  height: 50px;
+  height: 40px; /* Reduced height */
   color: white;
-  font-size: 16px;
-  margin-bottom: 28px;
+  font-size: 12.8px; /* Reduced font size */
+  margin-bottom: 22.4px !important; /* Reduced margin */
 
   &::placeholder {
     color: #ffffff70;
@@ -82,22 +91,24 @@ const CustomInput = styled(Input)`
 
 const Img = styled.img`
   width: 100%;
-  max-width: 400px;
+  max-width: 320px; /* Reduced width */
   margin: 0 auto;
 `;
 
-const SignUpForm = () => {
+const LoginForm = () => {
   const [form] = Form.useForm();
+
   const [buttonRight, setButtonRight] = useState(true);
   const [showEmoji, setShowEmoji] = useState(false);
 
   const onFinish = (values) => {
     console.log("Received values:", values);
+    // You can handle form submission logic here
   };
 
   const handleMouseEnter = () => {
-    const { username, email, password } = form.getFieldsValue();
-    if (!username || !email || !password) {
+    const { email, password } = form.getFieldsValue();
+    if (!email || !password) {
       setShowEmoji(true);
       setButtonRight(!buttonRight);
     } else {
@@ -110,17 +121,17 @@ const SignUpForm = () => {
       <FormWrapper>
         <Img src={logo} alt="logo" />
         <CustomTitle style={{ color: "white" }}>Register</CustomTitle>
-        <Form form={form} onFinish={onFinish} name="sign_up_form">
+        <Form form={form} onFinish={onFinish} name="sign_in_form">
           <FormItem
-            name="username"
+            name="User Name"
             rules={[
               {
                 required: true,
-                message: "Please enter your username!",
+                message: "Please enter your user name!",
               },
             ]}
           >
-            <CustomInput placeholder="User Name" />
+            <CustomInput placeholder="Email" />
           </FormItem>
           <FormItem
             name="email"
@@ -155,7 +166,7 @@ const SignUpForm = () => {
           </RightAlignedButtonWrapper>
         </Form>
         <RegisterText>
-          <span>Already registered? </span>
+          <span>Already Registered? </span>
           <Link to="/login">Log In</Link>
         </RegisterText>
       </FormWrapper>
@@ -163,4 +174,4 @@ const SignUpForm = () => {
   );
 };
 
-export default SignUpForm;
+export default LoginForm;

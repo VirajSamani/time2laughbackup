@@ -13,17 +13,18 @@ const Center = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding-top: 100px;
-  padding-bottom: 100px;
+  padding-top: 60px; /* Reduced padding */
+  padding-bottom: 60px; /* Reduced padding */
 `;
 
 const FormItem = styled(Form.Item)`
-  margin-bottom: 28px !important;
+  margin-bottom: 22.4px !important; /* Reduced margin */
 `;
 
 const CustomTitle = styled(Title)`
   text-align: center;
-  margin-top: 28px;
+  margin-top: 22.4px; /* Reduced margin */
+  font-size: 28px !important; /* Reduced font size */
 `;
 
 const RightAlignedButtonWrapper = styled.div`
@@ -35,18 +36,18 @@ const RightAlignedButtonWrapper = styled.div`
 `;
 
 const SubmitButton = styled(Button)`
-  border-radius: 4px !important;
-  font-size: 18px !important;
+  border-radius: 3.2px !important; /* Reduced border radius */
+  font-size: 14.4px !important; /* Reduced font size */
   font-weight: bold !important;
-  margin: 24px 0 12px !important;
+  margin: 19.2px 0 9.6px !important; /* Reduced margin */
   background-color: #4fb7d0 !important;
   border: none !important;
-  padding: 10px !important;
+  padding: 8px !important; /* Reduced padding */
   height: fit-content !important;
-  width: 30%;
+  width: 24%; /* Reduced width */
 
   @media (max-width: 768px) {
-    font-size: 14px !important;
+    font-size: 11.2px !important; /* Further reduced font size */
   }
 
   &:hover {
@@ -55,11 +56,11 @@ const SubmitButton = styled(Button)`
 `;
 
 const RegisterText = styled.div`
-  padding-top: 50px;
+  padding-top: 40px; /* Reduced padding */
   color: #737373;
-  font-size: 20px;
+  font-size: 16px; /* Reduced font size */
   font-weight: 400;
-  margin-top: 16px;
+  margin-top: 12.8px; /* Reduced margin */
 
   a {
     color: white;
@@ -71,17 +72,17 @@ const RegisterText = styled.div`
   }
 
   @media (max-width: 768px) {
-    font-size: 16px;
+    font-size: 12.8px; /* Further reduced font size */
   }
 `;
 
 const CustomInput = styled(Input)`
   background-color: #333333;
   border: none;
-  height: 50px;
+  height: 40px; /* Reduced height */
   color: white;
-  font-size: 16px;
-  margin-bottom: 28px;
+  font-size: 12.8px; /* Reduced font size */
+  margin-bottom: 22.4px !important; /* Reduced margin */
 
   &::placeholder {
     color: #ffffff70;
@@ -90,7 +91,7 @@ const CustomInput = styled(Input)`
 
 const Img = styled.img`
   width: 100%;
-  max-width: 400px;
+  max-width: 320px; /* Reduced width */
   margin: 0 auto;
 `;
 
