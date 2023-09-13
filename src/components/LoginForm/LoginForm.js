@@ -1,11 +1,11 @@
-import React from "react";
-import FormWrapper from "../../styled-common-components/FormWrapper";
-import { styled } from "styled-components";
-import Title from "antd/es/typography/Title";
-import Input from "antd/es/input/Input";
-import { Button } from "antd";
+import React, { useState } from "react";
+import { Form, Input, Button, Typography } from "antd";
 import { Link } from "react-router-dom";
-import logo from "../../assets/logo.png"
+import { styled } from "styled-components";
+import logo from "../../assets/logo.png";
+import FormWrapper from "../../styled-common-components/FormWrapper";
+
+const { Title } = Typography;
 
 const Center = styled.div`
   display: flex;
@@ -17,23 +17,21 @@ const Center = styled.div`
   padding-bottom: 100px;
 `;
 
-const CustomInput = styled(Input)`
-  background-color: #333333;
-  border: none;
-  height: 50px;
-  color: white;
-  font-size: 16px;
-  margin-bottom: 28px;
-
-  &::placeholder {
-    color: #ffffff70;
-  }
+const FormItem = styled(Form.Item)`
+  margin-bottom: 28px !important;
 `;
 
 const CustomTitle = styled(Title)`
-  margin-bottom: 28px !important;
   text-align: center;
   margin-top: 28px;
+`;
+
+const RightAlignedButtonWrapper = styled.div`
+  display: flex;
+  justify-content: ${(props) =>
+    props.right
+      ? "flex-end"
+      : "flex-start"}; /* Align the button to the right */
 `;
 
 const SubmitButton = styled(Button)`
@@ -45,12 +43,13 @@ const SubmitButton = styled(Button)`
   border: none !important;
   padding: 10px !important;
   height: fit-content !important;
+  width: 30%;
 
   @media (max-width: 768px) {
     font-size: 14px !important;
   }
 
-  &:hover{
+  &:hover {
     color: black !important;
   }
 `;
@@ -76,6 +75,19 @@ const RegisterText = styled.div`
   }
 `;
 
+const CustomInput = styled(Input)`
+  background-color: #333333;
+  border: none;
+  height: 50px;
+  color: white;
+  font-size: 16px;
+  margin-bottom: 28px;
+
+  &::placeholder {
+    color: #ffffff70;
+  }
+`;
+
 const Img = styled.img`
   width: 100%;
   max-width: 400px;
@@ -83,16 +95,64 @@ const Img = styled.img`
 `;
 
 const LoginForm = () => {
+  const [form] = Form.useForm();
+
+  const [buttonRight, setButtonRight] = useState(true);
+  const [showEmoji, setShowEmoji] = useState(false);
+
+  const onFinish = (values) => {
+    console.log("Received values:", values);
+    // You can handle form submission logic here
+  };
+
+  const handleMouseEnter = () => {
+    const { email, password } = form.getFieldsValue();
+    if (!email || !password) {
+      setShowEmoji(true);
+      setButtonRight(!buttonRight);
+    } else {
+      setShowEmoji(false);
+    }
+  };
+
   return (
     <Center>
       <FormWrapper>
         <Img src={logo} alt="logo" />
         <CustomTitle style={{ color: "white" }}>Sign In</CustomTitle>
-        <CustomInput type="text" placeholder="Email" />
-        <CustomInput type="text" placeholder="Password" />
-        <SubmitButton htmlType="submit" size="large">
-          Sign In
-        </SubmitButton>
+        <Form form={form} onFinish={onFinish} name="sign_in_form">
+          <FormItem
+            name="email"
+            rules={[
+              {
+                required: true,
+                message: "Please enter your email!",
+              },
+            ]}
+          >
+            <CustomInput placeholder="Email" />
+          </FormItem>
+          <FormItem
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: "Please enter your password!",
+              },
+            ]}
+          >
+            <CustomInput type="password" placeholder="Password" />
+          </FormItem>
+          <RightAlignedButtonWrapper right={buttonRight}>
+            <SubmitButton
+              onMouseEnter={handleMouseEnter}
+              htmlType="submit"
+              size="large"
+            >
+              {showEmoji ? "🤬" : " Sign In"}
+            </SubmitButton>
+          </RightAlignedButtonWrapper>
+        </Form>
         <RegisterText>
           <span>New to Time2Laugh? </span>
           <Link to="/register">Register Now</Link>

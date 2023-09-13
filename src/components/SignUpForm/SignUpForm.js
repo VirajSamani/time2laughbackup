@@ -1,11 +1,11 @@
-import React from "react";
-import FormWrapper from "../../styled-common-components/FormWrapper";
-import { styled } from "styled-components";
-import Title from "antd/es/typography/Title";
-import Input from "antd/es/input/Input";
-import { Button } from "antd";
+import React, { useState } from "react";
+import { Form, Input, Button, Typography } from "antd";
 import { Link } from "react-router-dom";
-import logo from "../../assets/logo.png"
+import { styled } from "styled-components";
+import logo from "../../assets/logo.png";
+import FormWrapper from "../../styled-common-components/FormWrapper";
+
+const { Title } = Typography;
 
 const Center = styled.div`
   display: flex;
@@ -13,27 +13,21 @@ const Center = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding-top: 100px;
-  padding-bottom: 100px;
+  padding: 100px 0;
 `;
 
-const CustomInput = styled(Input)`
-  background-color: #333333;
-  border: none;
-  height: 50px;
-  color: white;
-  font-size: 16px;
-  margin-bottom: 28px;
-
-  &::placeholder {
-    color: #ffffff70;
-  }
+const FormItem = styled(Form.Item)`
+  margin-bottom: 28px !important;
 `;
 
 const CustomTitle = styled(Title)`
-  margin-bottom: 28px !important;
   text-align: center;
   margin-top: 28px;
+`;
+
+const RightAlignedButtonWrapper = styled.div`
+  display: flex;
+  justify-content: ${(props) => (props.right ? "flex-end" : "flex-start")};
 `;
 
 const SubmitButton = styled(Button)`
@@ -45,12 +39,13 @@ const SubmitButton = styled(Button)`
   border: none !important;
   padding: 10px !important;
   height: fit-content !important;
+  width: 30%;
 
   @media (max-width: 768px) {
     font-size: 14px !important;
   }
 
-  &:hover{
+  &:hover {
     color: black !important;
   }
 `;
@@ -70,9 +65,18 @@ const RegisterText = styled.div`
   a:hover {
     text-decoration: underline;
   }
+`;
 
-  @media (max-width: 768px) {
-    font-size: 16px;
+const CustomInput = styled(Input)`
+  background-color: #333333;
+  border: none;
+  height: 50px;
+  color: white;
+  font-size: 16px;
+  margin-bottom: 28px;
+
+  &::placeholder {
+    color: #ffffff70;
   }
 `;
 
@@ -83,19 +87,75 @@ const Img = styled.img`
 `;
 
 const SignUpForm = () => {
+  const [form] = Form.useForm();
+  const [buttonRight, setButtonRight] = useState(true);
+  const [showEmoji, setShowEmoji] = useState(false);
+
+  const onFinish = (values) => {
+    console.log("Received values:", values);
+  };
+
+  const handleMouseEnter = () => {
+    const { username, email, password } = form.getFieldsValue();
+    if (!username || !email || !password) {
+      setShowEmoji(true);
+      setButtonRight(!buttonRight);
+    } else {
+      setShowEmoji(false);
+    }
+  };
+
   return (
     <Center>
       <FormWrapper>
         <Img src={logo} alt="logo" />
         <CustomTitle style={{ color: "white" }}>Register</CustomTitle>
-        <CustomInput type="text" placeholder="User Name" />
-        <CustomInput type="text" placeholder="Email" />
-        <CustomInput type="text" placeholder="Password" />
-        <SubmitButton htmlType="submit" size="large">
-          Register
-        </SubmitButton>
+        <Form form={form} onFinish={onFinish} name="sign_up_form">
+          <FormItem
+            name="username"
+            rules={[
+              {
+                required: true,
+                message: "Please enter your username!",
+              },
+            ]}
+          >
+            <CustomInput placeholder="User Name" />
+          </FormItem>
+          <FormItem
+            name="email"
+            rules={[
+              {
+                required: true,
+                message: "Please enter your email!",
+              },
+            ]}
+          >
+            <CustomInput placeholder="Email" />
+          </FormItem>
+          <FormItem
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: "Please enter your password!",
+              },
+            ]}
+          >
+            <CustomInput type="password" placeholder="Password" />
+          </FormItem>
+          <RightAlignedButtonWrapper right={buttonRight}>
+            <SubmitButton
+              onMouseEnter={handleMouseEnter}
+              htmlType="submit"
+              size="large"
+            >
+              {showEmoji ? "🤬" : "Register"}
+            </SubmitButton>
+          </RightAlignedButtonWrapper>
+        </Form>
         <RegisterText>
-          <span>Already Registered? </span>
+          <span>Already registered? </span>
           <Link to="/login">Log In</Link>
         </RegisterText>
       </FormWrapper>
