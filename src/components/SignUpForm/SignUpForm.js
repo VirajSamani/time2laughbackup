@@ -131,7 +131,7 @@ const LoginForm = () => {
               },
             ]}
           >
-            <CustomInput placeholder="Email" />
+            <CustomInput placeholder="User Name" />
           </FormItem>
           <FormItem
             name="email"
