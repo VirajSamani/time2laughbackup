@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Typography } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import logo from "../../assets/logo.png";
 import FormWrapper from "../../styled-common-components/FormWrapper";
+import useAuthStore from "../../store/authStore";
 
 const { Title } = Typography;
 
@@ -97,13 +98,16 @@ const Img = styled.img`
 
 const LoginForm = () => {
   const [form] = Form.useForm();
+  const navigate = useNavigate();
+
+  const { login } = useAuthStore();
 
   const [buttonRight, setButtonRight] = useState(true);
   const [showEmoji, setShowEmoji] = useState(false);
 
   const onFinish = (values) => {
     console.log("Received values:", values);
-    // You can handle form submission logic here
+    login(values,navigate);
   };
 
   const handleMouseEnter = () => {

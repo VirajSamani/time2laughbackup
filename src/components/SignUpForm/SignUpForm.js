@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Typography } from "antd";
-import { Link } from "react-router-dom";
+import { Form, Input, Button, Typography, message } from "antd";
+import { Link, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import logo from "../../assets/logo.png";
 import FormWrapper from "../../styled-common-components/FormWrapper";
+import { apiCall } from "../../utils/apiCall";
 
 const { Title } = Typography;
 
@@ -97,6 +98,7 @@ const Img = styled.img`
 
 const LoginForm = () => {
   const [form] = Form.useForm();
+  const navigate = useNavigate();
 
   const [buttonRight, setButtonRight] = useState(true);
   const [showEmoji, setShowEmoji] = useState(false);
@@ -104,6 +106,15 @@ const LoginForm = () => {
   const onFinish = (values) => {
     console.log("Received values:", values);
     // You can handle form submission logic here
+    apiCall("users/register", "POST", values).then((response) => {
+      console.log("register user", response);
+      if (response) {
+        navigate("/login");
+        message.success(
+          "Registration success! Login to join the fun. Party awaits you! 🥳"
+        );
+      }
+    });
   };
 
   const handleMouseEnter = () => {
@@ -123,7 +134,7 @@ const LoginForm = () => {
         <CustomTitle style={{ color: "white" }}>Register</CustomTitle>
         <Form form={form} onFinish={onFinish} name="sign_in_form">
           <FormItem
-            name="User Name"
+            name="username"
             rules={[
               {
                 required: true,
