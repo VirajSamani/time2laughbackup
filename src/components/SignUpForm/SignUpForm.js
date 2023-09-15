@@ -5,6 +5,7 @@ import { styled } from "styled-components";
 import logo from "../../assets/logo.png";
 import FormWrapper from "../../styled-common-components/FormWrapper";
 import { apiCall } from "../../utils/apiCall";
+import { useLoader } from "../../context/LoaderContext";
 
 const { Title } = Typography;
 
@@ -99,15 +100,15 @@ const Img = styled.img`
 const LoginForm = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const { showLoader, hideLoader } = useLoader();
 
   const [buttonRight, setButtonRight] = useState(true);
   const [showEmoji, setShowEmoji] = useState(false);
 
   const onFinish = (values) => {
-    console.log("Received values:", values);
-    // You can handle form submission logic here
+    showLoader();
     apiCall("users/register", "POST", values).then((response) => {
-      console.log("register user", response);
+      hideLoader();
       if (response) {
         navigate("/login");
         message.success(

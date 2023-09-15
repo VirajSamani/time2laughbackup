@@ -5,6 +5,7 @@ import { styled } from "styled-components";
 import logo from "../../assets/logo.png";
 import FormWrapper from "../../styled-common-components/FormWrapper";
 import useAuthStore from "../../store/authStore";
+import { useLoader } from "../../context/LoaderContext";
 
 const { Title } = Typography;
 
@@ -99,15 +100,21 @@ const Img = styled.img`
 const LoginForm = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const { showLoader, hideLoader } = useLoader();
 
   const { login } = useAuthStore();
 
   const [buttonRight, setButtonRight] = useState(true);
   const [showEmoji, setShowEmoji] = useState(false);
 
+  const onLoginFinish = (to) => {
+    hideLoader();
+    navigate(to);
+  };
+
   const onFinish = (values) => {
-    console.log("Received values:", values);
-    login(values,navigate);
+    showLoader();
+    login(values, onLoginFinish);
   };
 
   const handleMouseEnter = () => {

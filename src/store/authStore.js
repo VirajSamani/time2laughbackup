@@ -13,11 +13,13 @@ const authStore = (set) => ({
     localStorage.clear();
     set(() => ({ user: {} }));
   },
-  login: (cred, navigate) => {
+  login: (cred, onLoginFinish) => {
     apiCall("users/login", "POST", cred).then((response) => {
       if (response?.accessToken) {
         localStorage.setItem("authToken", response.accessToken);
-        navigate("/");
+        onLoginFinish("/");
+      } else {
+        onLoginFinish("");
       }
     });
   },
