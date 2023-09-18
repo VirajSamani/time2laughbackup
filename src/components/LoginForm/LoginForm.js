@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Input, Button, Typography } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/finallogo.png";
 import FormWrapper from "../../styled-common-components/FormWrapper";
 import useAuthStore from "../../store/authStore";
 import { useLoader } from "../../context/LoaderContext";
@@ -64,11 +64,6 @@ const RegisterText = styled.div`
   font-weight: 400;
   margin-top: 12.8px; /* Reduced margin */
 
-  a {
-    color: white;
-    text-decoration: none;
-  }
-
   a:hover {
     text-decoration: underline;
   }
@@ -76,6 +71,11 @@ const RegisterText = styled.div`
   @media (max-width: 768px) {
     font-size: 12.8px; /* Further reduced font size */
   }
+`;
+
+const NavLink = styled(Link)`
+  color: white;
+  text-decoration: none;
 `;
 
 const CustomInput = styled(Input)`
@@ -98,6 +98,9 @@ const Img = styled.img`
 `;
 
 const LoginForm = () => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const passRegex = /^(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const { showLoader, hideLoader } = useLoader();
@@ -122,15 +125,30 @@ const LoginForm = () => {
     if (!email || !password) {
       setShowEmoji(true);
       setButtonRight(!buttonRight);
+    } else if (!emailRegex.test(email)) {
+      setShowEmoji(true);
+      setButtonRight(!buttonRight);
+    } else if (!passRegex.test(password)) {
+      setShowEmoji(true);
+      setButtonRight(!buttonRight);
     } else {
       setShowEmoji(false);
     }
   };
 
+  const validatePassword = (_, value) => {
+    if (!value || passRegex.test(value)) {
+      return Promise.resolve();
+    }
+    return Promise.reject("Password must meet the criteria.");
+  };
+
   return (
     <Center>
       <FormWrapper>
-        <Img src={logo} alt="logo" />
+        <NavLink to="/">
+          <Img src={logo} alt="logo" />
+        </NavLink>
         <CustomTitle style={{ color: "white" }}>Sign In</CustomTitle>
         <Form form={form} onFinish={onFinish} name="sign_in_form">
           <FormItem
@@ -139,6 +157,10 @@ const LoginForm = () => {
               {
                 required: true,
                 message: "Please enter your email!",
+              },
+              {
+                type: "email",
+                message: "Invalid email format!",
               },
             ]}
           >
@@ -150,6 +172,9 @@ const LoginForm = () => {
               {
                 required: true,
                 message: "Please enter your password!",
+              },
+              {
+                validator: validatePassword,
               },
             ]}
           >
@@ -167,7 +192,7 @@ const LoginForm = () => {
         </Form>
         <RegisterText>
           <span>New to Time2Laugh? </span>
-          <Link to="/register">Register Now</Link>
+          <NavLink to="/register">Register Now</NavLink>
         </RegisterText>
       </FormWrapper>
     </Center>

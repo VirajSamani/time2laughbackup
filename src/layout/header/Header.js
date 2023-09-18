@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import CustomContainer from "../../styled-common-components/CustomContainer";
-import logo from "../../assets/logo.png"
+import logo from "../../assets/finallogo.png"
 
 const Img = styled.img`
   width: 100%;

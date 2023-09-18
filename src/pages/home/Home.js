@@ -29,8 +29,13 @@ const Home = () => {
     if (localStorage.getItem("authToken")) {
       showLoader();
       apiCall("/users/current").then((response) => {
-        addUserInfo(response);
         hideLoader();
+        if (response) {
+          addUserInfo(response);
+        } else {
+          addUserInfo(response);
+          localStorage.clear();
+        }
       });
     }
   }, []);
@@ -43,7 +48,8 @@ const Home = () => {
       <hr />
       pages availble <br />
       1. <Link to="/login">Login</Link> <br />
-      1. <Link to="/register">Register</Link> <br />
+      2. <Link to="/register">Register</Link> <br />
+      3. <Link to="/profile">Profile</Link> <br />
       <hr />
       {home}
     </center>
