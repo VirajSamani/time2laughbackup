@@ -6,6 +6,7 @@ import logo from "../../assets/finallogo.png";
 import FormWrapper from "../../styled-common-components/FormWrapper";
 import useAuthStore from "../../store/authStore";
 import { useLoader } from "../../context/LoaderContext";
+import { color } from "../../utils/color";
 
 const { Title } = Typography;
 
@@ -42,7 +43,7 @@ const SubmitButton = styled(Button)`
   font-size: 14.4px !important; /* Reduced font size */
   font-weight: bold !important;
   margin: 19.2px 0 9.6px !important; /* Reduced margin */
-  background-color: #4fb7d0 !important;
+  background-color: ${color.primary} !important;
   border: none !important;
   padding: 8px !important; /* Reduced padding */
   height: fit-content !important;

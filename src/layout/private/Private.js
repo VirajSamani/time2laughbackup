@@ -3,13 +3,20 @@ import useAuthStore from "../../store/authStore";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { useLoader } from "../../context/LoaderContext";
 import { apiCall } from "../../utils/apiCall";
+import Header from "../header/Header";
 
 const Private = () => {
   const { user, addUserInfo } = useAuthStore();
   const { showLoader, hideLoader } = useLoader();
   const navigate = useNavigate();
 
-  if (user?.email) return <Outlet />;
+  if (user?.email)
+    return (
+      <>
+        <Header />
+        <Outlet />
+      </>
+    );
 
   const token = localStorage.getItem("authToken");
 

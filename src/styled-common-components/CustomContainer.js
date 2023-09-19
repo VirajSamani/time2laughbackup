@@ -9,9 +9,9 @@ const Container = styled.div`
   padding-right: 15px;
   @media (max-width: 767px) {
     max-width: 100%;
-  };
-  position: absolute;
+  }
   z-index: 1;
+  width: 100%;
 `;
 
 const CustomContainer = ({ children, ...props }) => {
