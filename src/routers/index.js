@@ -5,6 +5,7 @@ import Signup from "../pages/signup/Signup";
 import Home from "../pages/home/Home";
 import Private from "../layout/private/Private";
 import Profile from "../pages/profile/Profile";
+import NotFoundPage from "../pages/notFoundPage/NotFoundPage";
 
 const Routers = () => {
   return (
@@ -15,6 +16,7 @@ const Routers = () => {
       <Route path="/" Component={Private}>
         <Route path="/profile" Component={Profile} />
       </Route>
+      <Route path="*" Component={NotFoundPage} />
     </Routes>
   );
 };

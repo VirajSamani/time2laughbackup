@@ -9,6 +9,8 @@ const Container = styled.div`
   padding-right: 15px;
   @media (max-width: 767px) {
     max-width: 100%;
+    padding-left: 0px;
+    padding-right: 0px;
   }
   z-index: 1;
   width: 100%;
