@@ -7,7 +7,7 @@ import Header from "../header/Header";
 
 const Private = () => {
   const { user, addUserInfo } = useAuthStore();
-  const { showLoader, hideLoader } = useLoader();
+  const { showLoader } = useLoader();
   const navigate = useNavigate();
 
   if (user?.email)
@@ -23,7 +23,7 @@ const Private = () => {
   if (token) {
     showLoader();
     apiCall("/users/current").then((response) => {
-      hideLoader();
+      // hideLoader();
       if (response) {
         addUserInfo(response);
       } else {

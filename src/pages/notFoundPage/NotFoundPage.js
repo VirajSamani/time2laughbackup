@@ -32,7 +32,6 @@ const Img = styled.img`
 const NotFoundPage = () => {
   const images = [first, second, third];
   const randomIndex = Math.floor(Math.random() * (images.length + 1));
-  console.log(randomIndex);
   let component = (
     <NotFoundContainer>
       <NotFoundTitle>404</NotFoundTitle>
