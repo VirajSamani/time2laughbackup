@@ -3,7 +3,7 @@ import { devtools } from "zustand/middleware";
 import { apiCall } from "../utils/apiCall";
 
 const authStore = (set) => ({
-  user: undefined,
+  user: {},
   addUserInfo: (user) => {
     set((state) => ({
       user: { ...state.user, ...user },

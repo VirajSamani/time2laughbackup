@@ -1,13 +1,15 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 
 const VideoContainer = styled.div`
   position: relative;
   width: 100%;
-  max-width: 600px; /* Set a maximum width if needed */
+  max-width: 600px;
   margin: 0 auto;
   height: 0;
-  padding-bottom: 56.25%; /* 16:9 aspect ratio (9 / 16 * 100%) */
+  padding-bottom: 56.25%;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
 `;
 
 const ThumbnailImage = styled.img`
@@ -16,8 +18,9 @@ const ThumbnailImage = styled.img`
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Maintain aspect ratio and cover container */
-  cursor: pointer;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
 `;
 
 const VideoElement = styled.video`
@@ -26,23 +29,16 @@ const VideoElement = styled.video`
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Maintain aspect ratio and cover container */
+  object-fit: cover;
+  opacity: ${(props) => (props.isPlaying ? 1 : 0)};
+  transition: opacity 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
 `;
 
 function VideoPlayer({ src, thumbnail }) {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    video.addEventListener("play", handlePlay);
-    video.addEventListener("pause", handlePause);
-
-    return () => {
-      video.removeEventListener("play", handlePlay);
-      video.removeEventListener("pause", handlePause);
-    };
-  }, []);
 
   const handlePlay = () => {
     setIsPlaying(true);
@@ -58,20 +54,19 @@ function VideoPlayer({ src, thumbnail }) {
   };
 
   return (
-    <VideoContainer>
+    <VideoContainer onClick={handleThumbnailClick}>
       <ThumbnailImage
         src={thumbnail}
         alt="Thumbnail"
-        style={{
-          display: isPlaying ? "none" : "block",
-        }}
-        onClick={handleThumbnailClick}
+        style={{ opacity: isPlaying ? 0 : 1 }}
       />
       <VideoElement
         ref={videoRef}
         controls
         controlsList="nodownload"
-        style={{ display: isPlaying ? "block" : "none" }}
+        isPlaying={isPlaying}
+        onPlay={handlePlay}
+        onPause={handlePause}
       >
         <source src={src} type="video/mp4" />
         Your browser does not support the video tag.

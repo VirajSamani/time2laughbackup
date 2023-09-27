@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
 const profileStore = (set) => ({
-  profile: undefined,
+  profile: {},
   addProfileInfo: (info) => {
     set(() => ({
       profile: info,

@@ -15,6 +15,7 @@ const Routers = () => {
       <Route path="/" Component={Home} exact={true} />
       <Route path="/" Component={Private}>
         <Route path="/profile" Component={Profile} />
+        <Route path="/profile/:username" Component={Profile} />
       </Route>
       <Route path="*" Component={NotFoundPage} />
     </Routes>

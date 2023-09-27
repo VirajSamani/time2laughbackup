@@ -8,24 +8,28 @@ import Section from "../../styled-common-components/Section";
 import { apiCall } from "../../utils/apiCall";
 import { useLoader } from "../../context/LoaderContext";
 import useProfileStore from "../../store/profileStore";
-import BookMark from "../../components/bookmark/BookMark";
+import { useParams } from "react-router-dom";
+import SubInfo from "../../components/subInfo/SubInfo";
+import Achivements from "../../components/achivements/Achivements";
 
 const Container = styled(CustomContainer)`
   padding-top: 20px;
 `;
 
 const Profile = () => {
+  const { username } = useParams();
   const { addProfileInfo } = useProfileStore();
   const { showLoader, hideLoader } = useLoader();
-  
+
   useEffect(() => {
     showLoader();
-    apiCall("comedian").then((data) => {
-      addProfileInfo(data)
+    const url = username ? `comedian/${username}` : "comedian";
+    apiCall(url).then((data) => {
+      addProfileInfo(data);
       hideLoader();
     });
   }, []);
-  
+
   return (
     <Section>
       <Container>
@@ -33,7 +37,19 @@ const Profile = () => {
           <UserProfileCard />
           <IntroPlayer />
         </Flex>
-        <BookMark /> 
+        <SubInfo
+          title={"Tag Line"}
+          description="this tagline will come from backend."
+        />
+        <SubInfo
+          title={"About"}
+          description="this section will come from backend."
+        />
+        <Achivements title={"Experience & Achivement"}/>
+        <SubInfo
+          title={"Why This?"}
+          description="this section will come from backend."
+        />
       </Container>
     </Section>
   );

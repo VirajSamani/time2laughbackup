@@ -3,10 +3,11 @@ import styled from "styled-components";
 import useProfileStore from "../../store/profileStore";
 import { color } from "../../utils/color";
 import profileImage from "../../assets/profile.jpg";
+import FollowButton from "../followButton/FollowButton";
+import useAuthStore from "../../store/authStore";
 
 const Card = styled.div`
-  width: 70%;
-  max-width: 400px;
+  width: 400px;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
@@ -15,6 +16,9 @@ const Card = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  @media (max-width: 768px) {
+    width: 83%;
+  }
 `;
 
 const ProfileImageWrapper = styled.div`
@@ -70,7 +74,10 @@ const VerifiedBadge = styled.span`
 `;
 
 const UserProfileCard = () => {
+  const { user } = useAuthStore();
   const { profile } = useProfileStore();
+
+  const showFollowButton = user.id !== profile?._id;
 
   return (
     <Card>
@@ -88,6 +95,7 @@ const UserProfileCard = () => {
           Joined: {new Date(profile?.createdAt).toLocaleDateString()}
         </JoinedDate>
         {profile?.verified && <VerifiedBadge>Verified Account</VerifiedBadge>}
+        {showFollowButton && <FollowButton />}
       </UserInfoWrapper>
     </Card>
   );
