@@ -9,7 +9,6 @@ import useAuthStore from "../../store/authStore";
 const Card = styled.div`
   width: 400px;
   background-color: #fff;
-  border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
   margin: 0 auto;
   display: flex;
@@ -29,7 +28,7 @@ const ProfileImageWrapper = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  margin: -75px auto 20px;
+  // margin: -75px auto 20px;
 `;
 
 const ProfileImage = styled.img`

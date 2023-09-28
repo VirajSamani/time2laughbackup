@@ -4,12 +4,13 @@ import styled from "styled-components";
 // Define the styled components
 const InfoWrapper = styled.div`
   padding: 20px;
-  border-radius: 5px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
   margin: 10px 0px;
 
   @media (max-width: 768px) {
     padding: 10px;
+    width: 90%;
+    margin: 10px auto;
   }
 `;
 

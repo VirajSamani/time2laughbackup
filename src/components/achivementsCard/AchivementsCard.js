@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import trophy from "../../assets/trophy.png"
+import trophy from "../../assets/trophy.png";
 
-// Define a styled component for the Achievement container
 const AchievementContainer = styled.div`
   display: inline-block;
   text-align: center;
@@ -11,18 +10,29 @@ const AchievementContainer = styled.div`
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+
+  @media (max-width: 768px) {
+    padding: 5px;
+    margin: 5px;
+  }
 `;
 
-// Define a styled component for the badge image
 const BadgeImage = styled.img`
-  max-width: 100px; /* Adjust the badge size as needed */
+  max-width: 80px; /* Adjust the badge size as needed */
   height: auto;
+
+  @media (max-width: 768px) {
+    max-width: 60px;
+  }
 `;
 
-// Define a styled component for the achievement text
 const AchievementText = styled.p`
-  font-size: 14px;
+  font-size: 16px;
   margin-top: 5px;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 `;
 
 const AchievementCard = ({ title, imageUrl }) => {

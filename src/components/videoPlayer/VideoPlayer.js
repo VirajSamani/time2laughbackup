@@ -20,7 +20,6 @@ const ThumbnailImage = styled.img`
   height: 100%;
   object-fit: cover;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-  border-radius: 10px;
 `;
 
 const VideoElement = styled.video`
@@ -33,7 +32,6 @@ const VideoElement = styled.video`
   opacity: ${(props) => (props.isPlaying ? 1 : 0)};
   transition: opacity 0.3s ease;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-  border-radius: 10px;
 `;
 
 function VideoPlayer({ src, thumbnail }) {

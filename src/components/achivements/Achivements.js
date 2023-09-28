@@ -1,17 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 import AchievementCard from "../achivementsCard/AchivementsCard";
+import useProfileStore from "../../store/profileStore";
 
-// Define the styled components
-const AchivementWrapper = styled.div`
-  padding: 10px;
-  border-radius: 5px;
+const AchievementWrapper = styled.div`
+  padding: 20px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
-  margin: 10px 0px;
+  margin: 20px 0;
 
   @media (max-width: 768px) {
-    padding: 5px; 
-    margin: 5px 0px; /* Adjust margin for smaller screens */
+    padding: 10px;
+    margin: 10px 0;
   }
 `;
 
@@ -24,15 +23,21 @@ const Title = styled.h1`
   }
 `;
 
-const Achivements = ({ title }) => {
+const Achievements = ({ title }) => {
+  const { profile } = useProfileStore();
+
   return (
-    <AchivementWrapper>
+    <AchievementWrapper>
       <Title>{title}</Title>
-      <AchievementCard title="achivement-1" />
-      <AchievementCard title="achivement-2" />
-      <AchievementCard title="achivement-3" />
-    </AchivementWrapper>
+      {profile.achievements.map((achievement) => (
+        <AchievementCard
+          key={achievement._id}
+          imageUrl={achievement.image}
+          title={achievement.title}
+        />
+      ))}
+    </AchievementWrapper>
   );
 };
 
-export default Achivements;
+export default Achievements;

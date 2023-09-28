@@ -1,16 +1,19 @@
 import React, { useEffect } from "react";
-import CustomContainer from "../../styled-common-components/CustomContainer";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
+
+import CustomContainer from "../../styled-common-components/CustomContainer";
 import { Flex } from "../../styled-common-components/Display";
+import Section from "../../styled-common-components/Section";
+
 import UserProfileCard from "../../components/userProfileCard/UserProfileCard";
 import IntroPlayer from "../../components/introPlayer/IntroPlayer";
-import Section from "../../styled-common-components/Section";
+import SubInfo from "../../components/subInfo/SubInfo";
+import Achievements from "../../components/achivements/Achivements";
+
 import { apiCall } from "../../utils/apiCall";
 import { useLoader } from "../../context/LoaderContext";
 import useProfileStore from "../../store/profileStore";
-import { useParams } from "react-router-dom";
-import SubInfo from "../../components/subInfo/SubInfo";
-import Achivements from "../../components/achivements/Achivements";
 
 const Container = styled(CustomContainer)`
   padding-top: 20px;
@@ -18,7 +21,7 @@ const Container = styled(CustomContainer)`
 
 const Profile = () => {
   const { username } = useParams();
-  const { addProfileInfo } = useProfileStore();
+  const { profile, addProfileInfo } = useProfileStore();
   const { showLoader, hideLoader } = useLoader();
 
   useEffect(() => {
@@ -39,16 +42,20 @@ const Profile = () => {
         </Flex>
         <SubInfo
           title={"Tag Line"}
-          description="this tagline will come from backend."
+          description={profile.tagline || "This is tagline."}
         />
         <SubInfo
           title={"About"}
-          description="this section will come from backend."
+          description={profile.about || "This is about."}
         />
-        <Achivements title={"Experience & Achivement"}/>
+        {profile?.achievements?.length ? (
+          <Achievements title={"Experience & Achivement"} />
+        ) : (
+          <></>
+        )}
         <SubInfo
           title={"Why This?"}
-          description="this section will come from backend."
+          description={profile.why || "This is why."}
         />
       </Container>
     </Section>
