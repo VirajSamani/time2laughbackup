@@ -9,7 +9,9 @@ const AuthHome = () => {
     <>
       <CustomContainer>
         <VideoFeedSection />
+        <hr />
         <PostFeedSection />
+        <hr />
         <JokeFeedSection />
       </CustomContainer>
     </>

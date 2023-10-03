@@ -2,6 +2,7 @@ import React from "react";
 import { Typography } from "antd";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { color } from "../../utils/color";
 
 const { Title } = Typography;
 
@@ -18,16 +19,20 @@ const TitleBar = styled.div`
 `;
 
 const SeeMoreLink = styled(Link)`
-  color: #1890ff;
+  color: ${color.secondary};
   &:hover {
     color: #40a9ff;
   }
 `;
 
+const MainTitle = styled(Title)`
+  color: ${color.primary} !important;
+`;
+
 const CustomTitleBar = ({ title, seeMoreLink }) => {
   return (
     <TitleBar>
-      <Title level={3}>{title}</Title>
+      <MainTitle level={3}>{title}</MainTitle>
       <SeeMoreLink to={seeMoreLink || "/login"}>See More</SeeMoreLink>
     </TitleBar>
   );

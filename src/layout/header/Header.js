@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { SearchOutlined, MenuOutlined } from "@ant-design/icons";
 import logo from "../../assets/finallogo.png";
-import { color } from "../../utils/color";
 import { Avatar } from "antd";
 import { useNavigate } from "react-router-dom";
 import { isAuth } from "../../utils/auth";
@@ -18,7 +17,7 @@ const HeaderSection = styled.div`
   // box-shadow: 0 2px 10px rgb(230, 244, 241);
   position: fixed;
   top: 0;
-  height: 80px;
+  height: 8 0px;
   width: 100%;
   z-index: 1000;
 `;
@@ -51,6 +50,7 @@ const Menu = styled.ul`
 
 const MenuItem = styled.li`
   margin-right: 20px;
+  cursor: pointer;
 `;
 
 const MobileMenuButton = styled.button`
