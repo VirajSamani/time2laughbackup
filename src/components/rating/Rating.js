@@ -13,16 +13,19 @@ const customIcons = {
 };
 
 const CustomRate = styled(Rate)`
+  .anticon {
+    color: black;
+  }
   & .ant-rate-star-full .anticon {
-    color: ${color.primary}; /* Change the color to your desired color */
+    color: ${color.primary};
   }
 `;
 
-const Rating = () => (
+const Rating = ({ rate }) => (
   <>
     <CustomRate
       disabled={true}
-      defaultValue={4}
+      defaultValue={rate}
       character={({ index }) => customIcons[index + 1]}
     />
   </>

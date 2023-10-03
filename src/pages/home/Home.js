@@ -31,14 +31,13 @@ const Home = () => {
     if (localStorage.getItem("authToken")) {
       showLoader();
       apiCall("/users/current").then((response) => {
-        hideLoader();
         if (response) {
           addUserInfo(response);
         } else {
           addUserInfo(response);
           localStorage.clear();
         }
-      });
+      }).finally(hideLoader);
     }
   }, []);
 

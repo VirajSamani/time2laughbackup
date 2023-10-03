@@ -5,6 +5,7 @@ import { color } from "../../utils/color";
 import profileImage from "../../assets/profile.jpg";
 import FollowButton from "../followButton/FollowButton";
 import useAuthStore from "../../store/authStore";
+import NamePlate from "../namePlate/NamePlate";
 
 const Card = styled.div`
   width: 400px;
@@ -66,12 +67,6 @@ const JoinedDate = styled.p`
   margin-top: 10px;
 `;
 
-const VerifiedBadge = styled.span`
-  font-size: 0.9rem;
-  color: #28a745;
-  margin-top: 10px;
-`;
-
 const UserProfileCard = () => {
   const { user } = useAuthStore();
   const { profile } = useProfileStore();
@@ -87,13 +82,18 @@ const UserProfileCard = () => {
         />
       </ProfileImageWrapper>
       <UserInfoWrapper>
-        <UserName>{profile?.nickName || profile?.username}</UserName>
+        <UserName>
+          <NamePlate
+            nickName={profile?.nickName}
+            username={profile?.username}
+            verified={profile?.verified}
+          />
+        </UserName>
         <Email>Email: {profile?.email}</Email>
         <FollowersCount>Followers: {profile?.followers || 0}</FollowersCount>
         <JoinedDate>
           Joined: {new Date(profile?.createdAt).toLocaleDateString()}
         </JoinedDate>
-        {profile?.verified && <VerifiedBadge>Verified Account</VerifiedBadge>}
         {showFollowButton && <FollowButton />}
       </UserInfoWrapper>
     </Card>

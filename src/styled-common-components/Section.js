@@ -6,7 +6,7 @@ const CustomSection = styled.section`
   min-height: 100vh;
   background-color: #f8f8f8;
   display: flex;
-  padding-top: 65px;
+  padding-top: 70px;
 `;
 
 const Section = ({ children }) => {

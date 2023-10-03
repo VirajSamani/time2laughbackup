@@ -3,14 +3,24 @@ import styled from "styled-components";
 import { SearchOutlined, MenuOutlined } from "@ant-design/icons";
 import logo from "../../assets/finallogo.png";
 import { color } from "../../utils/color";
+import { Avatar } from "antd";
+import { useNavigate } from "react-router-dom";
+import { isAuth } from "../../utils/auth";
 
 const HeaderSection = styled.div`
-  background-color: ${color.primaryBg};
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: fixed; /* Make the header fixed at the top */
-  top: 0; /* Position it at the top of the viewport */
-  width: 100%; /* Full width */
-  z-index: 1000; /* Adjust the z-index as needed */
+  background: rgb(230, 244, 241);
+  background: linear-gradient(
+    0deg,
+    rgba(230, 244, 241, 0) 0%,
+    rgba(0, 167, 217, 1) 100%
+  );
+
+  // box-shadow: 0 2px 10px rgb(230, 244, 241);
+  position: fixed;
+  top: 0;
+  height: 80px;
+  width: 100%;
+  z-index: 1000;
 `;
 
 const HeaderContainer = styled.div`
@@ -25,6 +35,7 @@ const HeaderContainer = styled.div`
 const Logo = styled.img`
   max-width: 170px;
   width: 100%;
+  filter: brightness(0) invert(20%);
 `;
 
 const Menu = styled.ul`
@@ -70,8 +81,9 @@ const MobileMenuItem = styled.li`
 `;
 
 const Header = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const mobileMenuRef = useRef(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -99,17 +111,33 @@ const Header = () => {
           <MenuOutlined style={{ fontSize: "20px" }} />
         </MobileMenuButton>
         <Menu>
-          <MenuItem>Test</MenuItem>
-          <MenuItem>One</MenuItem>
-          <MenuItem>
-            <SearchOutlined />
-          </MenuItem>
+          {isAuth() ? (
+            <>
+              <MenuItem onClick={() => navigate("/search")}>
+                <SearchOutlined />
+              </MenuItem>
+              <MenuItem onClick={() => navigate("/profile")}>
+                <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />
+              </MenuItem>
+            </>
+          ) : (
+            <MenuItem onClick={() => navigate("/login")}>Login</MenuItem>
+          )}
         </Menu>
       </HeaderContainer>
       <MobileMenu isOpen={mobileMenuOpen} ref={mobileMenuRef}>
-        <MobileMenuItem>Test</MobileMenuItem>
-        <MobileMenuItem>One</MobileMenuItem>
-        <MobileMenuItem>Search</MobileMenuItem>
+        {isAuth() ? (
+          <>
+            <MobileMenuItem onClick={() => navigate("/profile")}>
+              Profile
+            </MobileMenuItem>
+            <MobileMenuItem onClick={() => navigate("/search")}>
+              Search
+            </MobileMenuItem>
+          </>
+        ) : (
+          <MenuItem onClick={() => navigate("/login")}>Login</MenuItem>
+        )}
       </MobileMenu>
     </HeaderSection>
   );
