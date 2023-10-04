@@ -14,6 +14,7 @@ import Achievements from "../../components/achivements/Achivements";
 import { apiCall } from "../../utils/apiCall";
 import { useLoader } from "../../context/LoaderContext";
 import useProfileStore from "../../store/profileStore";
+import ProfileContentTab from "../../components/profileContentTab/ProfileContentTab";
 
 const Container = styled(CustomContainer)`
   padding-top: 20px;
@@ -57,6 +58,12 @@ const Profile = () => {
           title={"Why This?"}
           description={profile.why || "This is why."}
         />
+        <ProfileContentTab />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
       </Container>
     </Section>
   );

@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
 import useAuthStore from "../../store/authStore";
 import { apiCall } from "../../utils/apiCall";
-import { Button } from "antd";
 import { useLoader } from "../../context/LoaderContext";
 import UnAuthHome from "./UnAuthHome";
 import AuthHome from "./AuthHome";

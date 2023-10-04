@@ -1,6 +1,8 @@
 import React from "react";
 import VerifiedBadge from "../badges/VerifiedBadge";
 import { Tooltip } from "antd";
+import { Link } from "react-router-dom";
+import { isAuth } from "../../utils/auth";
 
 const NamePlate = ({ nickName, username, verified }) => {
   let verifyBadge = <></>;
@@ -11,8 +13,10 @@ const NamePlate = ({ nickName, username, verified }) => {
 
   return (
     <>
-      <Tooltip placement="bottom" title="Verified" >
-        @{nickName || username} {verifyBadge}
+      <Tooltip placement="bottom" title="Verified">
+        <Link to={isAuth() ? `/profile/${username}` : "/login"}>
+          {nickName || username} {verifyBadge}
+        </Link>
       </Tooltip>
     </>
   );

@@ -32,6 +32,7 @@ const HeaderContainer = styled.div`
 `;
 
 const Logo = styled.img`
+  cursor: pointer;
   max-width: 170px;
   width: 100%;
   filter: brightness(0) invert(20%);
@@ -106,7 +107,7 @@ const Header = () => {
   return (
     <HeaderSection>
       <HeaderContainer>
-        <Logo src={logo} alt="logo" />
+        <Logo onClick={() => navigate("/")} src={logo} alt="logo" />
         <MobileMenuButton onClick={toggleMobileMenu}>
           <MenuOutlined style={{ fontSize: "20px" }} />
         </MobileMenuButton>

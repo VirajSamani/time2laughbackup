@@ -14,6 +14,7 @@ const IntroPlayer = () => {
   return (
     <Player>
       <VideoPlayer
+        center={true}
         thumbnail="https://geekflare.com/wp-content/uploads/2023/03/img-placeholder.png"
         src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
       />

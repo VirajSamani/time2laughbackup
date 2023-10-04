@@ -1,10 +1,12 @@
 import React from "react";
-import { Card, Row, Col, Avatar } from "antd";
+import { Card, Row, Col } from "antd";
 import styled from "styled-components";
 import { EllipsisOutlined } from "@ant-design/icons";
 import Meta from "antd/es/card/Meta";
 import Rating from "../rating/Rating";
 import NamePlate from "../namePlate/NamePlate";
+import { Link } from "react-router-dom";
+import ProfileAvatar from "../badges/ProfileAvatar";
 
 // Create a styled component for the grid container
 const GridContainer = styled.div`
@@ -40,10 +42,8 @@ const VideoCardGrid = ({ data }) => {
               ]}
             >
               <Meta
-                avatar={
-                  <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />
-                }
-                title={video.title}
+                avatar={<ProfileAvatar username={video.username} />}
+                title={<Link to={`/video/${video._id}`}>{video.title}</Link>}
                 description={
                   <NamePlate
                     nickName={video.nickName}

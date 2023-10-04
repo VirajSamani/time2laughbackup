@@ -5,21 +5,19 @@ const VideoContainer = styled.div`
   position: relative;
   width: 100%;
   max-width: 600px;
-  margin: 0 auto;
-  height: 0;
-  padding-bottom: 56.25%;
+  margin: ${(props) => (props.center ? "0 auto" : "0")};
   cursor: pointer;
   transition: opacity 0.3s ease;
 `;
 
 const ThumbnailImage = styled.img`
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 100%;
+  height: ${(props) => (props.customHeight ? props.customHeight : "100%")};
   object-fit: cover;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  @media (max-width: 768px) {
+    height: 100%;
+  }
 `;
 
 const VideoElement = styled.video`
@@ -27,14 +25,17 @@ const VideoElement = styled.video`
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: ${(props) => (props.customHeight ? props.customHeight : "100%")};
   object-fit: cover;
   opacity: ${(props) => (props.isPlaying ? 1 : 0)};
   transition: opacity 0.3s ease;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  @media (max-width: 768px) {
+    height: 100%;
+  }
 `;
 
-function VideoPlayer({ src, thumbnail }) {
+function VideoPlayer({ src, thumbnail, height, center }) {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -52,13 +53,15 @@ function VideoPlayer({ src, thumbnail }) {
   };
 
   return (
-    <VideoContainer onClick={handleThumbnailClick}>
+    <VideoContainer center={center} onClick={handleThumbnailClick}>
       <ThumbnailImage
+        customHeight={height}
         src={thumbnail}
         alt="Thumbnail"
         style={{ opacity: isPlaying ? 0 : 1 }}
       />
       <VideoElement
+        customHeight={height}
         ref={videoRef}
         controls
         controlsList="nodownload"

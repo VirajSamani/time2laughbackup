@@ -29,11 +29,11 @@ const Private = () => {
       } else {
         addUserInfo(response);
         localStorage.clear();
-        navigate("/");
+        navigate("/login");
       }
     });
   } else {
-    return <Navigate to="/" />;
+    return <Navigate to="/login" />;
   }
 };
 

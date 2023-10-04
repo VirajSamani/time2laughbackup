@@ -5,6 +5,7 @@ import { EllipsisOutlined } from "@ant-design/icons";
 import Meta from "antd/es/card/Meta";
 import Rating from "../rating/Rating";
 import NamePlate from "../namePlate/NamePlate";
+import ProfileAvatar from "../badges/ProfileAvatar";
 
 // Create a styled component for the grid container
 const GridContainer = styled.div`
@@ -30,9 +31,7 @@ const JokeCardGrid = ({ data }) => {
               ]}
             >
               <Meta
-                avatar={
-                  <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />
-                }
+                avatar={<ProfileAvatar username={joke.username} />}
                 title={joke.content}
                 description={
                   <NamePlate

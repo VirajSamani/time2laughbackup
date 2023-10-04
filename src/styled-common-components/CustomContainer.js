@@ -16,8 +16,8 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const CustomContainer = ({ children, ...props }) => {
-  return <Container {...props}>{children}</Container>;
+const CustomContainer = ({ loading, children, ...props }) => {
+  return <Container {...props}>{!loading && children}</Container>;
 };
 
 export default CustomContainer;
