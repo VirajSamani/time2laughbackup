@@ -7,6 +7,8 @@ import Private from "../layout/private/Private";
 import Profile from "../pages/profile/Profile";
 import NotFoundPage from "../pages/notFoundPage/NotFoundPage";
 import VideoWatcher from "../pages/videoWatcher/VideoWatcher";
+import SearchPage from "../pages/search/SearchPage";
+import Discovery from "../components/discover/Discovery";
 
 const Routers = () => {
   return (
@@ -18,6 +20,8 @@ const Routers = () => {
         <Route path="/profile" Component={Profile} />
         <Route path="/profile/:username" Component={Profile} />
         <Route path="/video/:id" Component={VideoWatcher} />
+        <Route path="/search" Component={SearchPage} />
+        <Route path="/discovery" Component={Discovery} />
       </Route>
       <Route path="*" Component={NotFoundPage} />
     </Routes>

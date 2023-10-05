@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import useProfileStore from "../../store/profileStore";
 import { color } from "../../utils/color";
-import profileImage from "../../assets/profile.jpg";
 import FollowButton from "../followButton/FollowButton";
 import useAuthStore from "../../store/authStore";
 import NamePlate from "../namePlate/NamePlate";
@@ -77,7 +76,7 @@ const UserProfileCard = () => {
     <Card>
       <ProfileImageWrapper>
         <ProfileImage
-          src={profile?.profilePicture || profileImage}
+          src={profile?.profilePicture || "https://xsgames.co/randomusers/avatar.php?g=pixel"}
           alt="Profile Picture"
         />
       </ProfileImageWrapper>

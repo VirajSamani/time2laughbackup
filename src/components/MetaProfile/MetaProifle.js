@@ -13,7 +13,7 @@ const MetaWrapper = styled.div`
 const MetaTitle = styled(Link)`
   font-size: 18px;
   text-decoration: none;
-  color: #333; /* Adjust color as needed */
+  color: #333; 
 `;
 
 const MetaProifile = ({ username, nickName }) => {

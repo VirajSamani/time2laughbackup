@@ -2,6 +2,7 @@ import React from "react";
 import { Tabs } from "antd";
 import VideoList from "./VideoList";
 import PostList from "./PostList";
+import JokeList from "./JokeList";
 
 const onChange = (key) => {
   console.log(key);
@@ -20,7 +21,7 @@ const items = [
   {
     key: "3",
     label: "Jokes",
-    children: "Content of Tab Pane 3",
+    children: <JokeList />,
   },
 ];
 const ProfileContentTab = () => (
