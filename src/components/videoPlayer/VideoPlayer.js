@@ -1,10 +1,15 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 
+const VideoWrapper = styled.div`
+  width: 100%;
+  background-color: #0f0f0f;
+`;
+
 const VideoContainer = styled.div`
   position: relative;
   width: 100%;
-  max-width: 600px;
+  max-width: fit-content;
   margin: ${(props) => (props.center ? "0 auto" : "0")};
   cursor: pointer;
   transition: opacity 0.3s ease;
@@ -53,26 +58,28 @@ function VideoPlayer({ src, thumbnail, height, center }) {
   };
 
   return (
-    <VideoContainer center={center} onClick={handleThumbnailClick}>
-      <ThumbnailImage
-        customHeight={height}
-        src={thumbnail}
-        alt="Thumbnail"
-        style={{ opacity: isPlaying ? 0 : 1 }}
-      />
-      <VideoElement
-        customHeight={height}
-        ref={videoRef}
-        controls
-        controlsList="nodownload"
-        isPlaying={isPlaying}
-        onPlay={handlePlay}
-        onPause={handlePause}
-      >
-        <source src={src} type="video/mp4" />
-        Your browser does not support the video tag.
-      </VideoElement>
-    </VideoContainer>
+    <VideoWrapper>
+      <VideoContainer center={center} onClick={handleThumbnailClick}>
+        <ThumbnailImage
+          customHeight={height}
+          src={thumbnail}
+          alt="Thumbnail"
+          style={{ opacity: isPlaying ? 0 : 1 }}
+        />
+        <VideoElement
+          customHeight={height}
+          ref={videoRef}
+          controls
+          controlsList="nodownload"
+          isPlaying={isPlaying}
+          onPlay={handlePlay}
+          onPause={handlePause}
+        >
+          <source src={src} type="video/mp4" />
+          Your browser does not support the video tag.
+        </VideoElement>
+      </VideoContainer>
+    </VideoWrapper>
   );
 }
 

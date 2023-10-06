@@ -6,6 +6,7 @@ import UnAuthHome from "./UnAuthHome";
 import AuthHome from "./AuthHome";
 import Header from "../../layout/header/Header";
 import Section from "../../styled-common-components/Section";
+import TrendingTopVideo from "../../components/Trending/TrendingTopVideo";
 
 const Home = () => {
   const { user, addUserInfo } = useAuthStore();
@@ -20,20 +21,23 @@ const Home = () => {
   useEffect(() => {
     if (localStorage.getItem("authToken")) {
       showLoader();
-      apiCall("/users/current").then((response) => {
-        if (response) {
-          addUserInfo(response);
-        } else {
-          addUserInfo(response);
-          localStorage.clear();
-        }
-      }).finally(hideLoader);
+      apiCall("/users/current")
+        .then((response) => {
+          if (response) {
+            addUserInfo(response);
+          } else {
+            addUserInfo(response);
+            localStorage.clear();
+          }
+        })
+        .finally(hideLoader);
     }
   }, []);
 
   return (
     <>
       <Header />
+      <TrendingTopVideo />
       <Section>{home}</Section>
     </>
   );

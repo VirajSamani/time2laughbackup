@@ -1,25 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { SearchOutlined, MenuOutlined } from "@ant-design/icons";
+import { SearchOutlined, CloseOutlined, MenuOutlined } from "@ant-design/icons";
 import logo from "../../assets/finallogo.png";
-import { Avatar } from "antd";
-import { useNavigate } from "react-router-dom";
+import { Avatar, Tooltip } from "antd";
+import { Link, useNavigate } from "react-router-dom";
 import { isAuth } from "../../utils/auth";
+import { color } from "../../utils/color";
+import LoginButton from "../../components/buttons/LoginButton";
 
 const HeaderSection = styled.div`
-  background: rgb(230, 244, 241);
-  background: linear-gradient(
-    0deg,
-    rgba(230, 244, 241, 0) 0%,
-    rgba(0, 167, 217, 1) 100%
-  );
-
-  // box-shadow: 0 2px 10px rgb(230, 244, 241);
+  background: ${(props) => (props.isScrolled ? "white" : "transparent")};
+  box-shadow: ${(props) =>
+    props.isScrolled ? "0 2px 10px rgba(0, 0, 0, 0.1)" : "none"};
   position: fixed;
-  top: 0;
-  height: 8 0px;
+  top: ${(props) => (props.isHidden ? "-60px" : "0")};
   width: 100%;
   z-index: 1000;
+  transition: top 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
 `;
 
 const HeaderContainer = styled.div`
@@ -35,7 +32,6 @@ const Logo = styled.img`
   cursor: pointer;
   max-width: 170px;
   width: 100%;
-  filter: brightness(0) invert(20%);
 `;
 
 const Menu = styled.ul`
@@ -45,13 +41,21 @@ const Menu = styled.ul`
   margin: 0;
   padding: 0;
   @media (max-width: 768px) {
-    display: none; /* Hide menu on smaller screens */
+    display: none;
   }
 `;
 
 const MenuItem = styled.li`
   margin-right: 20px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #555;
+  transition: color 0.3s ease;
+  &:hover {
+    color: #333;
+  }
 `;
 
 const MobileMenuButton = styled.button`
@@ -65,68 +69,140 @@ const MobileMenuButton = styled.button`
 `;
 
 const MobileMenu = styled.div`
-  list-style: none;
+  background-color: #fff;
   position: fixed;
-  top: 60px;
-  right: 10px;
-  background-color: #ffffff;
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  top: ${(props) => (props.isOpen ? "0" : "-100%")}; /* Slide from top */
+  left: 0; /* Start from the left edge */
+  width: 100%; /* Full width */
+  overflow-y: auto;
+  box-shadow: ${(props) =>
+    props.isOpen ? "0 2px 4px rgba(0, 0, 0, 0.1)" : "none"};
   z-index: 1;
-  display: ${(props) => (props.isOpen ? "block" : "none")};
+  transition: top 0.3s ease, box-shadow 0.3s ease;
+`;
+
+const CloseIcon = styled(CloseOutlined)`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  color: ${color.primary};
+  transition: transform 0.3s ease;
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 
 const MobileMenuItem = styled.li`
-  padding: 10px;
+  padding: 15px;
   text-align: center;
+  font-size: 16px;
+  color: #555;
+  transition: color 0.3s ease;
+  &:hover {
+    color: #333;
+    background-color: ${color.primary}; /* Add background color on hover */
+    color: white; /* Change text color to white on hover */
+    border-radius: 5px; /* Add rounded corners on hover */
+  }
 `;
 
 const Header = () => {
   const mobileMenuRef = useRef(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
   const navigate = useNavigate();
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
 
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+  };
+
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (mobileMenuRef.current && !mobileMenuRef.current.contains(e.target)) {
-        setMobileMenuOpen(false);
+    const handleScroll = () => {
+      const currentScrollPos = window.scrollY;
+
+      if (currentScrollPos > 0) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
       }
+
+      if (currentScrollPos > prevScrollPos) {
+        setIsHidden(true);
+      } else {
+        setIsHidden(false);
+      }
+
+      setPrevScrollPos(currentScrollPos);
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [prevScrollPos]);
+
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.overflow = "auto";
+      document.body.style.overflow = "auto";
+    }
+  }, [mobileMenuOpen]);
+
+  // Close mobile menu after clicking a menu item
+  const handleMobileMenuItemClick = () => {
+    closeMobileMenu();
+    navigate("/login")
+  };
 
   return (
-    <HeaderSection>
+    <HeaderSection isScrolled={isScrolled} isHidden={isHidden}>
       <HeaderContainer>
         <Logo onClick={() => navigate("/")} src={logo} alt="logo" />
         <MobileMenuButton onClick={toggleMobileMenu}>
-          <MenuOutlined style={{ fontSize: "20px" }} />
+          {mobileMenuOpen ? (
+            <CloseIcon onClick={closeMobileMenu} />
+          ) : (
+            <MenuOutlined style={{ fontSize: "20px" }} />
+          )}
         </MobileMenuButton>
         <Menu>
           {isAuth() ? (
             <>
-              <MenuItem onClick={() => navigate("/search")}>
+              <MenuItem>
                 <SearchOutlined />
               </MenuItem>
-              <MenuItem onClick={() => navigate("/profile")}>
-                <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />
+              <MenuItem>
+                <Tooltip placement="bottom" title="Profile" arrowPointAtCenter>
+                  <Link to="/profile">
+                    <Avatar
+                      style={{ border: `1px solid ${color.secondary}` }}
+                      src="https://xsgames.co/randomusers/avatar.php?g=pixel"
+                    />
+                  </Link>
+                </Tooltip>
               </MenuItem>
             </>
           ) : (
-            <MenuItem onClick={() => navigate("/login")}>Login</MenuItem>
+            <MenuItem>
+              <LoginButton onClick={() => navigate("/login")} />
+            </MenuItem>
           )}
         </Menu>
       </HeaderContainer>
       <MobileMenu isOpen={mobileMenuOpen} ref={mobileMenuRef}>
+        <CloseIcon onClick={closeMobileMenu} />
         {isAuth() ? (
           <>
             <MobileMenuItem onClick={() => navigate("/profile")}>
@@ -137,7 +213,9 @@ const Header = () => {
             </MobileMenuItem>
           </>
         ) : (
-          <MenuItem onClick={() => navigate("/login")}>Login</MenuItem>
+          <MobileMenuItem onClick={handleMobileMenuItemClick}>
+            Login
+          </MobileMenuItem>
         )}
       </MobileMenu>
     </HeaderSection>

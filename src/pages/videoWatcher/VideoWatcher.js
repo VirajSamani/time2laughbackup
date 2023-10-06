@@ -57,13 +57,19 @@ const VideoWatcher = () => {
 
   return (
     <Section>
+      <VideoPlayer
+        center={true}
+        height="450px"
+        thumbnail={
+          data.thumbnail ||
+          "https://geekflare.com/wp-content/uploads/2023/03/img-placeholder.png"
+        }
+        src={
+          data.url ||
+          "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+        }
+      />
       <CustomContainer loading={loading}>
-        <VideoPlayer
-          center={true}
-          height="450px"
-          thumbnail="https://geekflare.com/wp-content/uploads/2023/03/img-placeholder.png"
-          src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-        />
         <DetailWrapper>
           <Title>{data.title}</Title>
           <Rating rate={data.rating} />

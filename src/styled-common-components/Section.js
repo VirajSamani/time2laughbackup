@@ -6,6 +6,7 @@ const CustomSection = styled.section`
   min-height: 100vh;
   background-color: #f0f2f5;
   display: flex;
+  flex-direction: column;
   padding-top: 70px;
 `;
 

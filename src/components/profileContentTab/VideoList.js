@@ -54,7 +54,6 @@ const VideoList = () => {
             alt={video.title}
           />
           <h3>{video.title}</h3>
-          <p>{video.description}</p>
           <p>
             <Rating rate={video.rating} />
           </p>
