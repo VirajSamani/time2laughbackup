@@ -7,6 +7,7 @@ import FormWrapper from "../../styled-common-components/FormWrapper";
 import { apiCall } from "../../utils/apiCall";
 import { useLoader } from "../../context/LoaderContext";
 import { color } from "../../utils/color";
+import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 
 const { Title } = Typography;
 
@@ -90,12 +91,35 @@ const CustomInput = styled(Input)`
   &::placeholder {
     color: #ffffff70;
   }
+
+  input {
+    background-color: #333333;
+    color: white !important;
+
+    &::placeholder {
+      color: #ffffff70 !important;
+    }
+  }
 `;
 
 const Img = styled.img`
   width: 100%;
   max-width: 320px; /* Reduced width */
   margin: 0 auto;
+`;
+
+const PasswordToggle = styled.span`
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: ${color.primary};
+  font-size: 16px;
+
+  &:hover {
+    color: ${color.primaryHover};
+  }
 `;
 
 const SignUpForm = () => {
@@ -108,6 +132,7 @@ const SignUpForm = () => {
 
   const [buttonRight, setButtonRight] = useState(true);
   const [showEmoji, setShowEmoji] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const onFinish = (values) => {
     showLoader();
@@ -123,8 +148,8 @@ const SignUpForm = () => {
   };
 
   const handleMouseEnter = () => {
-    const { email, password } = form.getFieldsValue();
-    if (!email || !password) {
+    const { username, email, password } = form.getFieldsValue();
+    if (!username || !email || !password) {
       setShowEmoji(true);
       setButtonRight(!buttonRight);
     } else if (!emailRegex.test(email)) {
@@ -138,11 +163,28 @@ const SignUpForm = () => {
     }
   };
 
+  const handleChange = () => {
+    const { username, email, password } = form.getFieldsValue();
+    if (
+      username &&
+      email &&
+      password &&
+      emailRegex.test(email) &&
+      passRegex.test(password)
+    ) {
+      setShowEmoji(false);
+    } else {
+      setShowEmoji(true);
+    }
+  };
+
   const validatePassword = (_, value) => {
     if (!value || passRegex.test(value)) {
       return Promise.resolve();
     }
-    return Promise.reject("Password must meet the criteria.");
+    return Promise.reject(
+      "Password should be more than 8 character, it must include special symbols, numbers, combination of uppercase and lowercase."
+    );
   };
 
   return (
@@ -162,7 +204,7 @@ const SignUpForm = () => {
               },
             ]}
           >
-            <CustomInput placeholder="User Name" />
+            <CustomInput onChange={handleChange} placeholder="User Name" />
           </FormItem>
           <FormItem
             name="email"
@@ -177,7 +219,7 @@ const SignUpForm = () => {
               },
             ]}
           >
-            <CustomInput placeholder="Email" />
+            <CustomInput onChange={handleChange} placeholder="Email" />
           </FormItem>
           <FormItem
             name="password"
@@ -191,7 +233,26 @@ const SignUpForm = () => {
               },
             ]}
           >
-            <CustomInput type="password" placeholder="Password" />
+            <CustomInput
+              onChange={handleChange}
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              suffix={
+                <PasswordToggle>
+                  {showPassword ? (
+                    <EyeInvisibleOutlined
+                      onClick={() => setShowPassword(false)}
+                      color="white"
+                    />
+                  ) : (
+                    <EyeOutlined
+                      onClick={() => setShowPassword(true)}
+                      color="white"
+                    />
+                  )}
+                </PasswordToggle>
+              }
+            />
           </FormItem>
           <RightAlignedButtonWrapper right={buttonRight}>
             <SubmitButton

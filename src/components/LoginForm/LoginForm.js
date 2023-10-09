@@ -7,6 +7,7 @@ import FormWrapper from "../../styled-common-components/FormWrapper";
 import useAuthStore from "../../store/authStore";
 import { useLoader } from "../../context/LoaderContext";
 import { color } from "../../utils/color";
+import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 
 const { Title } = Typography;
 
@@ -98,6 +99,20 @@ const Img = styled.img`
   margin: 0 auto;
 `;
 
+const PasswordToggle = styled.span`
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: ${color.primary};
+  font-size: 16px;
+
+  &:hover {
+    color: ${color.primaryHover};
+  }
+`;
+
 const LoginForm = () => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const passRegex = /^(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
@@ -110,6 +125,7 @@ const LoginForm = () => {
 
   const [buttonRight, setButtonRight] = useState(true);
   const [showEmoji, setShowEmoji] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const onLoginFinish = (to) => {
     hideLoader();
@@ -137,11 +153,27 @@ const LoginForm = () => {
     }
   };
 
+  const handleChange = () => {
+    const { email, password } = form.getFieldsValue();
+    if (
+      email &&
+      password &&
+      emailRegex.test(email) &&
+      passRegex.test(password)
+    ) {
+      setShowEmoji(false);
+    } else {
+      setShowEmoji(true);
+    }
+  };
+
   const validatePassword = (_, value) => {
     if (!value || passRegex.test(value)) {
       return Promise.resolve();
     }
-    return Promise.reject("Password must meet the criteria.");
+    return Promise.reject(
+      "Password should be more than 8 character, it must include special symbols, numbers, combination of uppercase and lowercase."
+    );
   };
 
   return (
@@ -165,7 +197,7 @@ const LoginForm = () => {
               },
             ]}
           >
-            <CustomInput placeholder="Email" />
+            <CustomInput onChange={handleChange} placeholder="Email" />
           </FormItem>
           <FormItem
             name="password"
@@ -179,7 +211,26 @@ const LoginForm = () => {
               },
             ]}
           >
-            <CustomInput type="password" placeholder="Password" />
+            <CustomInput
+              onChange={handleChange}
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              suffix={
+                <PasswordToggle>
+                  {showPassword ? (
+                    <EyeInvisibleOutlined
+                      onClick={() => setShowPassword(false)}
+                      color="white"
+                    />
+                  ) : (
+                    <EyeOutlined
+                      onClick={() => setShowPassword(true)}
+                      color="white"
+                    />
+                  )}
+                </PasswordToggle>
+              }
+            />
           </FormItem>
           <RightAlignedButtonWrapper right={buttonRight}>
             <SubmitButton
@@ -194,6 +245,10 @@ const LoginForm = () => {
         <RegisterText>
           <span>New to Time2Laugh? </span>
           <NavLink to="/register">Register Now</NavLink>
+          <br />
+          <br />
+          <span>Forgot your password? </span>
+          <NavLink to="/forgot-password">Reset it</NavLink>
         </RegisterText>
       </FormWrapper>
     </Center>

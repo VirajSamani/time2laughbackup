@@ -163,7 +163,7 @@ const Header = () => {
   // Close mobile menu after clicking a menu item
   const handleMobileMenuItemClick = () => {
     closeMobileMenu();
-    navigate("/login")
+    navigate("/login");
   };
 
   return (
@@ -181,7 +181,9 @@ const Header = () => {
           {isAuth() ? (
             <>
               <MenuItem>
-                <SearchOutlined />
+                <Link to="/search">
+                  <SearchOutlined />
+                </Link>
               </MenuItem>
               <MenuItem>
                 <Tooltip placement="bottom" title="Profile" arrowPointAtCenter>
