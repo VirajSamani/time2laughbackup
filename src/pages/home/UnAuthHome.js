@@ -8,9 +8,7 @@ const UnAuthHome = () => {
   return (
     <CustomContainer>
       <VideoFeedSection />
-      <hr />
       <PostFeedSection />
-      <hr />
       <JokeFeedSection />
     </CustomContainer>
   );

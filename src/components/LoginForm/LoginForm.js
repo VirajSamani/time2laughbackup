@@ -91,6 +91,15 @@ const CustomInput = styled(Input)`
   &::placeholder {
     color: #ffffff70;
   }
+
+  input {
+    background-color: #333333;
+    color: white !important;
+
+    &::placeholder {
+      color: #ffffff70 !important;
+    }
+  }
 `;
 
 const Img = styled.img`

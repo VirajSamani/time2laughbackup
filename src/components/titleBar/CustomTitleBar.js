@@ -10,23 +10,28 @@ const { Title } = Typography;
 const TitleBar = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: baseline;
+  // background-color: #1e1e1e; /* Dark background color */
+  padding: 10px 20px; /* Add some padding for spacing */
 
   @media (max-width: 767px) {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 10px; /* Adjust padding for smaller screens */
   }
 `;
 
 const SeeMoreLink = styled(Link)`
-  color: ${color.secondary};
+  color: #40a9ff; /* Link color */
+  text-decoration: none;
+  transition: color 0.3s; /* Add a smooth color transition */
+
   &:hover {
-    color: #40a9ff;
+    color: #1890ff; /* Change link color on hover */
   }
 `;
 
 const MainTitle = styled(Title)`
-  color: ${color.primary} !important;
+  color: white !important; /* Title text color */
+  margin: 0; /* Remove default margin */
 `;
 
 const CustomTitleBar = ({ title, seeMoreLink }) => {

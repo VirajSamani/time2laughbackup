@@ -9,12 +9,16 @@ import NotFoundPage from "../pages/notFoundPage/NotFoundPage";
 import VideoWatcher from "../pages/videoWatcher/VideoWatcher";
 import SearchPage from "../pages/search/SearchPage";
 import Discovery from "../components/discover/Discovery";
+import ForgotPass from "../pages/forgotPass/ForgotPass";
+import ResetPass from "../pages/forgotPass/ResetPass";
 
 const Routers = () => {
   return (
     <Routes>
       <Route path="/login" Component={Login} />
       <Route path="/register" Component={Signup} />
+      <Route path="/forgot-password" Component={ForgotPass} />
+      <Route path="/reset-password" Component={ResetPass} />
       <Route path="/" Component={Home} exact={true} />
       <Route path="/" Component={Private}>
         <Route path="/profile" Component={Profile} />

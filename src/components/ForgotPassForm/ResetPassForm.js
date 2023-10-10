@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Typography, message } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import logo from "../../assets/finallogo.png";
 import FormWrapper from "../../styled-common-components/FormWrapper";
-import { apiCall } from "../../utils/apiCall";
+import useAuthStore from "../../store/authStore";
 import { useLoader } from "../../context/LoaderContext";
 import { color } from "../../utils/color";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
+import { apiCall } from "../../utils/apiCall";
 
 const { Title } = Typography;
 
@@ -59,22 +60,6 @@ const SubmitButton = styled(Button)`
   }
 `;
 
-const RegisterText = styled.div`
-  padding-top: 40px; /* Reduced padding */
-  color: #737373;
-  font-size: 16px; /* Reduced font size */
-  font-weight: 400;
-  margin-top: 12.8px; /* Reduced margin */
-
-  a:hover {
-    text-decoration: underline;
-  }
-
-  @media (max-width: 768px) {
-    font-size: 12.8px; /* Further reduced font size */
-  }
-`;
-
 const NavLink = styled(Link)`
   color: white;
   text-decoration: none;
@@ -83,10 +68,10 @@ const NavLink = styled(Link)`
 const CustomInput = styled(Input)`
   background-color: #333333;
   border: none;
-  height: 40px; 
+  height: 40px; /* Reduced height */
   color: white;
-  font-size: 12.8px;
-  margin-bottom: 22.4px !important;
+  font-size: 12.8px; /* Reduced font size */
+  margin-bottom: 22.4px !important; /* Reduced margin */
 
   &::placeholder {
     color: #ffffff70;
@@ -104,7 +89,7 @@ const CustomInput = styled(Input)`
 
 const Img = styled.img`
   width: 100%;
-  max-width: 320px;
+  max-width: 320px; /* Reduced width */
   margin: 0 auto;
 `;
 
@@ -122,40 +107,44 @@ const PasswordToggle = styled.span`
   }
 `;
 
-const SignUpForm = () => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const ResetPassForm = () => {
   const passRegex = /^(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const { showLoader, hideLoader } = useLoader();
+  const location = useLocation();
+
+  const queryParams = new URLSearchParams(location.search);
+  const token = queryParams.get("token");
+
+  const { removeUserInfo } = useAuthStore();
 
   const [buttonRight, setButtonRight] = useState(true);
   const [showEmoji, setShowEmoji] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const onFinish = (values) => {
+    const { password } = values;
     showLoader();
-    apiCall("users/register", "POST", values).then((response) => {
-      hideLoader();
-      if (response) {
+    removeUserInfo();
+    apiCall(`users/reset-password?token=${token}`, "POST", { password })
+      .then((response) => {
+        message.success(response.msg);
         navigate("/login");
-        message.success(
-          "Registration success! Login to join the fun. Party awaits you! 🥳"
-        );
-      }
-    });
+      })
+      .finally(hideLoader);
   };
 
   const handleMouseEnter = () => {
-    const { username, email, password } = form.getFieldsValue();
-    if (!username || !email || !password) {
-      setShowEmoji(true);
-      setButtonRight(!buttonRight);
-    } else if (!emailRegex.test(email)) {
+    const { password, confirm_password } = form.getFieldsValue();
+    if (!password) {
       setShowEmoji(true);
       setButtonRight(!buttonRight);
     } else if (!passRegex.test(password)) {
+      setShowEmoji(true);
+      setButtonRight(!buttonRight);
+    } else if (password !== confirm_password) {
       setShowEmoji(true);
       setButtonRight(!buttonRight);
     } else {
@@ -164,13 +153,12 @@ const SignUpForm = () => {
   };
 
   const handleChange = () => {
-    const { username, email, password } = form.getFieldsValue();
+    const { password, confirm_password } = form.getFieldsValue();
     if (
-      username &&
-      email &&
       password &&
-      emailRegex.test(email) &&
-      passRegex.test(password)
+      confirm_password &&
+      passRegex.test(password) &&
+      confirm_password === password
     ) {
       setShowEmoji(false);
     } else {
@@ -187,40 +175,24 @@ const SignUpForm = () => {
     );
   };
 
+  const validateConfirmPassword = (_, value) => {
+    const { password } = form.getFieldsValue();
+    if (value && value === password) {
+      return Promise.resolve();
+    }
+    return Promise.reject(
+      "To create a valid password, both the password and confirm password fields value must be matched."
+    );
+  };
+
   return (
     <Center>
       <FormWrapper>
         <NavLink to="/">
           <Img src={logo} alt="logo" />
         </NavLink>
-        <CustomTitle style={{ color: "white" }}>Register</CustomTitle>
+        <CustomTitle style={{ color: "white" }}>Forgot Password</CustomTitle>
         <Form form={form} onFinish={onFinish} name="sign_in_form">
-          <FormItem
-            name="username"
-            rules={[
-              {
-                required: true,
-                message: "Please enter your user name!",
-              },
-            ]}
-          >
-            <CustomInput onChange={handleChange} placeholder="User Name" />
-          </FormItem>
-          <FormItem
-            name="email"
-            rules={[
-              {
-                required: true,
-                message: "Please enter your email!",
-              },
-              {
-                type: "email",
-                message: "Invalid email format!",
-              },
-            ]}
-          >
-            <CustomInput onChange={handleChange} placeholder="Email" />
-          </FormItem>
           <FormItem
             name="password"
             rules={[
@@ -236,7 +208,25 @@ const SignUpForm = () => {
             <CustomInput
               onChange={handleChange}
               type={showPassword ? "text" : "password"}
-              placeholder="Password"
+              placeholder="New Password"
+            />
+          </FormItem>
+          <FormItem
+            name="confirm_password"
+            rules={[
+              {
+                required: true,
+                message: "Please enter your password!",
+              },
+              {
+                validator: validateConfirmPassword,
+              },
+            ]}
+          >
+            <CustomInput
+              onChange={handleChange}
+              type={showPassword ? "text" : "password"}
+              placeholder="Confirm Password"
               suffix={
                 <PasswordToggle>
                   {showPassword ? (
@@ -260,17 +250,13 @@ const SignUpForm = () => {
               htmlType="submit"
               size="large"
             >
-              {showEmoji ? "🤬" : "Register"}
+              {showEmoji ? "🤬" : " Reset"}
             </SubmitButton>
           </RightAlignedButtonWrapper>
         </Form>
-        <RegisterText>
-          <span>Already Registered? </span>
-          <NavLink to="/login">Log In</NavLink>
-        </RegisterText>
       </FormWrapper>
     </Center>
   );
 };
 
-export default SignUpForm;
+export default ResetPassForm;

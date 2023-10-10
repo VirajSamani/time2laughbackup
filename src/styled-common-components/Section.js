@@ -4,7 +4,8 @@ import styled from "styled-components";
 
 const CustomSection = styled.section`
   min-height: 100vh;
-  background-color: #f0f2f5;
+  background-color: #0f0f0f;
+  // background-color: #000;
   display: flex;
   flex-direction: column;
   padding-top: 70px;

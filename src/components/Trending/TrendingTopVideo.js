@@ -5,11 +5,22 @@ import { Link } from "react-router-dom";
 
 const TrendingImage = styled.img`
   height: 500px;
+  width: 100%;
+  object-fit: cover;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  transition: filter 0.3s, box-shadow 0.3s, transform 0.3s;
+  overflow: hidden;
+
+  &:hover {
+    transform: scale(1.05); /* Add a slight zoom effect on hover */
+  }
+
   @media (max-width: 768px) {
-    height: 100%;
+    height: 60vh;
     width: 100%;
   }
+
+  -webkit-mask-image: linear-gradient(0deg, transparent 5%, #000 60%);
 `;
 
 const TrendingWrapper = styled.div`
@@ -18,6 +29,7 @@ const TrendingWrapper = styled.div`
   width: 100%;
   background-color: #0f0f0f;
   height: 100%;
+  transition: background-color 0.3s;
 `;
 
 const TrendingTopVideo = () => {
@@ -34,8 +46,6 @@ const TrendingTopVideo = () => {
   useEffect(() => {
     fetchTrendingVideo();
   }, []);
-
-  console.log(loading, data);
 
   return (
     !loading && (

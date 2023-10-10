@@ -5,8 +5,6 @@ const Container = styled.div`
   max-width: ${(props) => (props.fluid ? "100%" : "1140px")};
   margin-left: auto;
   margin-right: auto;
-  padding-left: 15px;
-  padding-right: 15px;
   @media (max-width: 767px) {
     max-width: 100%;
     padding-left: 0px;

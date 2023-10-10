@@ -9,7 +9,7 @@ import { color } from "../../utils/color";
 import LoginButton from "../../components/buttons/LoginButton";
 
 const HeaderSection = styled.div`
-  background: ${(props) => (props.isScrolled ? "white" : "transparent")};
+  background: ${(props) => (props.isScrolled ? "black" : "transparent")};
   box-shadow: ${(props) =>
     props.isScrolled ? "0 2px 10px rgba(0, 0, 0, 0.1)" : "none"};
   position: fixed;
@@ -182,7 +182,7 @@ const Header = () => {
             <>
               <MenuItem>
                 <Link to="/search">
-                  <SearchOutlined />
+                  <SearchOutlined style={{ color: color.primary }} />
                 </Link>
               </MenuItem>
               <MenuItem>

@@ -1,50 +1,20 @@
 import React from "react";
-import { Card, Row, Col, Avatar } from "antd";
 import styled from "styled-components";
-import { EllipsisOutlined } from "@ant-design/icons";
-import Meta from "antd/es/card/Meta";
-import Rating from "../rating/Rating";
-import NamePlate from "../namePlate/NamePlate";
-import ProfileAvatar from "../badges/ProfileAvatar";
+import CustomCard from "../customCard/CustomCard";
 
-// Create a styled component for the grid container
 const GridContainer = styled.div`
-  padding: 20px;
-`;
-
-const CardCol = styled(Col)`
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px 0px;
 `;
 
 const JokeCardGrid = ({ data }) => {
   return (
     <GridContainer>
-      <Row gutter={24}>
-        {data.map((joke, index) => (
-          <CardCol key={index} xs={24} sm={24} md={24} lg={24}>
-            <Card
-              style={{ width: "100%" }}
-              actions={[
-                <Rating key="rating" rate={joke.rating || 0} />,
-                <EllipsisOutlined key="ellipsis" />,
-              ]}
-            >
-              <Meta
-                avatar={<ProfileAvatar username={joke.username} />}
-                title={joke.content}
-                description={
-                  <NamePlate
-                    nickName={joke.nickName}
-                    username={joke.username}
-                    verified={true}
-                  />
-                }
-              />
-            </Card>
-          </CardCol>
-        ))}
-      </Row>
+      {data.map((joke) => (
+        <CustomCard data={joke} type="joke" />
+      ))}
     </GridContainer>
   );
 };
