@@ -8,16 +8,35 @@ import Section from "../../styled-common-components/Section";
 
 import UserProfileCard from "../../components/userProfileCard/UserProfileCard";
 import IntroPlayer from "../../components/introPlayer/IntroPlayer";
-import SubInfo from "../../components/subInfo/SubInfo";
-import Achievements from "../../components/achivements/Achivements";
-
+import Achievements from "../../components/achivements/Achivements"; // Corrected import
 import { apiCall } from "../../utils/apiCall";
 import { useLoader } from "../../context/LoaderContext";
 import useProfileStore from "../../store/profileStore";
 import ProfileContentTab from "../../components/profileContentTab/ProfileContentTab";
+import SubInfo from "../../components/subInfo/SubInfo";
 
 const Container = styled(CustomContainer)`
-  padding-top: 20px;
+  background-color: #0f0f0f;
+  color: #ddd;
+  border-radius: 8px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
+  margin: 0 auto;
+`;
+
+const UserDetailsWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  @media (min-width: 768px) {
+    width: 44%;
+  }
+`;
+
+const MainTitle = styled.h1`
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #ddd;
 `;
 
 const Profile = () => {
@@ -37,34 +56,37 @@ const Profile = () => {
   return (
     <Section>
       <Container>
-        <Flex>
-          <UserProfileCard />
-          <IntroPlayer />
+        <MainTitle>Comedian Profile</MainTitle>
+        <UserProfileCard />
+        <Flex flexWrap="wrap">
+          <UserDetailsWrapper>
+            <IntroPlayer />
+            <SubInfo
+              title="About"
+              infoText={profile.about || "This is about."}
+            />
+            <SubInfo
+              title="Tag Line"
+              infoText={profile.tagline || "This is tagline."}
+            />
+            {profile?.achievements?.length ? (
+              <Achievements title={"Experience & Achievement"} />
+            ) : (
+              <></>
+            )}
+            <SubInfo
+              title="Why This?"
+              infoText={profile.why || "This is why."}
+            />
+          </UserDetailsWrapper>
+          <ProfileContentTab />
         </Flex>
-        <SubInfo
-          title={"Tag Line"}
-          description={profile.tagline || "This is tagline."}
-        />
-        <SubInfo
-          title={"About"}
-          description={profile.about || "This is about."}
-        />
-        {profile?.achievements?.length ? (
-          <Achievements title={"Experience & Achivement"} />
-        ) : (
-          <></>
-        )}
-        <SubInfo
-          title={"Why This?"}
-          description={profile.why || "This is why."}
-        />
-        <ProfileContentTab />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
       </Container>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
     </Section>
   );
 };

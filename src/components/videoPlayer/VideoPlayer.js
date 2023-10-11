@@ -20,6 +20,7 @@ const ThumbnailImage = styled.img`
   height: ${(props) => (props.customHeight ? props.customHeight : "100%")};
   object-fit: cover;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
   @media (max-width: 768px) {
     height: 100%;
   }
@@ -35,6 +36,7 @@ const VideoElement = styled.video`
   opacity: ${(props) => (props.isPlaying ? 1 : 0)};
   transition: opacity 0.3s ease;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
   @media (max-width: 768px) {
     height: 100%;
   }

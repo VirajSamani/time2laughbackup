@@ -5,7 +5,7 @@ import styled, { css } from "styled-components";
 const CardContainer = styled.div`
   position: relative;
   height: 150px;
-  width: 23%;
+  width: ${(props) => (props.width ? props.width : "23%")};
   background-color: #fce3e3; /* Light pink background color */
   border-radius: 10px;
   overflow: hidden;
@@ -93,19 +93,12 @@ const JokeContent = styled.div`
   color: #333; /* Dark text color */
 `;
 
-const CustomCard = ({ data, type }) => {
+const CustomCard = ({ data, type, width }) => {
   const isJoke = type === "joke";
 
   if (isJoke) {
     return (
-      <CardContainer key={data._id} isJoke={isJoke}>
-        {/* <CardImage
-          src={
-            data.thumbnail ||
-            "https://geekflare.com/wp-content/uploads/2023/03/img-placeholder.png"
-          }
-          alt={data.content}
-        /> */}
+      <CardContainer width={width} key={data._id} isJoke={isJoke}>
         <ProfilePicture
           src={
             data.profilePicture ||
@@ -139,7 +132,7 @@ const CustomCard = ({ data, type }) => {
   }
 
   return (
-    <CardContainer key={data._id}>
+    <CardContainer width={width} key={data._id}>
       <ContentWrapper>
         <Link to={url}>
           <CardImage

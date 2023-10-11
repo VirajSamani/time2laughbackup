@@ -13,7 +13,7 @@ const NamePlate = ({ nickName, username, verified }) => {
 
   return (
     <>
-      <Tooltip placement="bottom" title="Verified">
+      <Tooltip placement="bottom" title={verified && "Verified"}>
         <Link to={isAuth() ? `/profile/${username}` : "/login"}>
           {nickName || username} {verifyBadge}
         </Link>

@@ -9,3 +9,36 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+/* Define a custom scrollbar style */
+::-webkit-scrollbar {
+  width: 10px; /* Set the width of the scrollbar */
+  opacity: 0; /* Initially hide the scrollbar */
+  transition: opacity 0.2s; /* Add a smooth transition effect */
+}
+
+/* Define the track (the background of the scrollbar) */
+::-webkit-scrollbar-track {
+  background: #333; /* Background color of the track */
+}
+
+/* Define the thumb (the moving part of the scrollbar) */
+::-webkit-scrollbar-thumb {
+  background: rgb(79, 183, 208); /* Color of the thumb */
+  border-radius: 5px; /* Rounded corners for the thumb */
+}
+
+/* Define the button (the arrows or buttons at the ends of the scrollbar) */
+::-webkit-scrollbar-button {
+  display: none; /* Hide the scrollbar buttons */
+}
+
+/* Define the corner (the intersection of the horizontal and vertical scrollbars) */
+::-webkit-scrollbar-corner {
+  background: #333; /* Color of the scrollbar corner */
+}
+
+/* Show the scrollbar on hover */
+:hover::-webkit-scrollbar {
+  opacity: 1; /* Display the scrollbar on hover */
+}

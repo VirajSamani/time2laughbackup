@@ -32,12 +32,13 @@ const Description = styled.p`
 
 const VideoWatcher = () => {
   const { id } = useParams();
-  const { hideLoader } = useLoader();
+  const { showLoader, hideLoader } = useLoader();
 
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
 
   const getVideoData = () => {
+    showLoader();
     apiCall(`videos/${id}`)
       .then((response) => {
         setData(response);

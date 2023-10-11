@@ -3,10 +3,12 @@ import styled from "styled-components";
 import VideoPlayer from "../videoPlayer/VideoPlayer";
 
 const Player = styled.div`
-  width: 70%;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto 20px auto;
+
   @media (max-width: 768px) {
     width: 95%;
-    margin-top: 10px;
   }
 `;
 
