@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Card, Button, Modal, Form, Input } from "antd";
+import { Button, Modal } from "antd";
 import styled from "styled-components";
 import { apiCall } from "../../utils/apiCall";
-import Rating from "../rating/Rating";
 import CustomCard from "../customCard/CustomCard";
 import { UploadOutlined } from "@ant-design/icons";
 import { color } from "../../utils/color";
+import PostUploadComponent from "../forms/PostUploadForm";
 
 const PostListContainer = styled.div`
   max-height: 830px; /* Set the maximum height you desire */
@@ -70,9 +70,6 @@ const PostList = () => {
   const [posts, setPosts] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  // Add form states
-  const [form] = Form.useForm();
-
   const getPostList = () => {
     apiCall("/posts/").then((response) => {
       setPosts(response);
@@ -90,16 +87,6 @@ const PostList = () => {
 
   const handleCancel = () => {
     setIsModalVisible(false);
-  };
-
-  // Handle form submission
-  const onFinish = (values) => {
-    // You can send a POST request to your server with the content data here
-    console.log("Received values:", values);
-    // Close the modal
-    setIsModalVisible(false);
-    // Clear the form
-    form.resetFields();
   };
 
   return (
@@ -129,23 +116,7 @@ const PostList = () => {
         onCancel={handleCancel}
         footer={null}
       >
-        <Form form={form} name="addContent" onFinish={onFinish}>
-          <Form.Item
-            name="contentTitle"
-            label="Content Title"
-            rules={[
-              { required: true, message: "Please enter the content title!" },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
+        <PostUploadComponent />
       </Modal>
     </PostListContainer>
   );

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { apiCall } from "../../utils/apiCall";
 import CustomCard from "../customCard/CustomCard";
 import { useParams } from "react-router-dom";
-import { Button, Form, Modal } from "antd";
+import { Button, Form, Modal, message } from "antd";
 import VideoUploadForm from "../forms/VideoUploadForm";
 import { UploadOutlined } from "@ant-design/icons";
 import { color } from "../../utils/color";
@@ -82,8 +82,6 @@ const VideoList = () => {
   const { user } = useAuthStore();
   const { profile } = useProfileStore();
 
-  const [form] = Form.useForm();
-
   const showUploadButton = user.id === profile?._id;
 
   const getVideoList = () => {
@@ -105,18 +103,14 @@ const VideoList = () => {
     setIsModalVisible(false);
   };
 
-  const onFinish = (values) => {
-    console.log("Received values:", values);
-    setIsModalVisible(false);
-    form.resetFields();
-  };
-
   return (
     <VideoListContainer>
-      {showUploadButton && <UploadButton type="primary" onClick={showModal} className="icon">
-        <UploadOutlined />
-        Upload Video
-      </UploadButton>}
+      {showUploadButton && (
+        <UploadButton type="primary" onClick={showModal} className="icon">
+          <UploadOutlined />
+          Upload Video
+        </UploadButton>
+      )}
       <VideoListWrapper>
         {videos.length === 0 ? (
           <NoVideosMessage>
@@ -138,7 +132,7 @@ const VideoList = () => {
         onCancel={handleCancel}
         footer={null}
       >
-        <VideoUploadForm onFinish={onFinish} form={form} />
+        <VideoUploadForm />
       </ModalWrapper>
     </VideoListContainer>
   );

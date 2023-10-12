@@ -6,6 +6,7 @@ import { color } from "../../utils/color";
 import MetaProifile from "../MetaProfile/MetaProifle";
 import { EllipsisOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import CustomCard from "../customCard/CustomCard";
 
 const VideoListWrapper = styled.div`
   display: flex;
@@ -81,33 +82,7 @@ const DiscoveryVideoList = ({ data }) => {
     <div>
       <VideoListWrapper>
         {data.slice(0, visibleVideos).map((video) => (
-          <VideoCard
-            actions={[
-              <Rating key="rating" rate={video.rating || 0} />,
-              <EllipsisOutlined key="ellipsis" />,
-            ]}
-            key={video._id}
-          >
-            <Link target="_blank" to={`/video/${video._id}`}>
-              <Thumbnail
-                src={
-                  video.thumbnail ||
-                  "https://geekflare.com/wp-content/uploads/2023/03/img-placeholder.png"
-                }
-                alt={video.title}
-              />
-            </Link>
-            <CardContent>
-              <Link target="_blank" to={`/video/${video._id}`}>
-                <Title>{video.title}</Title>
-              </Link>
-              <Description>{video.description}</Description>
-              <MetaProifile
-                username={video.username}
-                nickName={video.username}
-              />
-            </CardContent>
-          </VideoCard>
+          <CustomCard data={video} type="video" />
         ))}
       </VideoListWrapper>
       {visibleVideos < data.length && (

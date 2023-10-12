@@ -42,3 +42,16 @@ a {
 :hover::-webkit-scrollbar {
   opacity: 1; /* Display the scrollbar on hover */
 }
+
+&.ant-skeleton {
+  background: rgb(255 255 255 / 6%) !important; /* Background color */
+}
+
+.ant-skeleton-element {
+  background: rgb(255 255 255 / 6%) !important;
+}
+
+.ant-skeleton-title,
+.ant-skeleton-paragraph {
+  background: rgb(255 255 255 / 6%) !important; /* Text color */
+}

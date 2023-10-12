@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Card, Button, Modal, Form, Input } from "antd";
+import { Card, Button, Modal } from "antd";
 import styled from "styled-components";
 import { apiCall } from "../../utils/apiCall";
 import Rating from "../rating/Rating";
 import { UploadOutlined } from "@ant-design/icons";
 import { color } from "../../utils/color";
+import JokeUploadComponent from "../forms/JokeUploadForm";
 
 const JokeListContainer = styled.div`
   max-height: 830px; /* Set the maximum height you desire */
@@ -84,9 +85,6 @@ const JokeList = () => {
   const [jokes, setJokes] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  // Add form states
-  const [form] = Form.useForm();
-
   const getJokeList = () => {
     apiCall("/jokes/").then((response) => {
       setJokes(response);
@@ -104,16 +102,6 @@ const JokeList = () => {
 
   const handleCancel = () => {
     setIsModalVisible(false);
-  };
-
-  // Handle form submission
-  const onFinish = (values) => {
-    // You can send a POST request to your server with the joke data here
-    console.log("Received values:", values);
-    // Close the modal
-    setIsModalVisible(false);
-    // Clear the form
-    form.resetFields();
   };
 
   return (
@@ -155,25 +143,7 @@ const JokeList = () => {
         onCancel={handleCancel}
         footer={null}
       >
-        <Form form={form} name="addJoke" onFinish={onFinish}>
-          <Form.Item
-            name="jokeContent"
-            label="Joke Content"
-            rules={[
-              { required: true, message: "Please enter the joke content!" },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-
-          {/* You can add more form fields as needed */}
-
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
+        <JokeUploadComponent />
       </Modal>
     </JokeListContainer>
   );

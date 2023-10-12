@@ -2,11 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { SearchOutlined, CloseOutlined, MenuOutlined } from "@ant-design/icons";
 import logo from "../../assets/finallogo.png";
-import { Avatar, Tooltip } from "antd";
+import { Avatar, Button, Dropdown, Menu as AntdMenu, Tooltip } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { isAuth } from "../../utils/auth";
 import { color } from "../../utils/color";
 import LoginButton from "../../components/buttons/LoginButton";
+import useAuthStore from "../../store/authStore";
 
 const HeaderSection = styled.div`
   background: ${(props) => (props.isScrolled ? "black" : "transparent")};
@@ -34,12 +35,13 @@ const Logo = styled.img`
   width: 100%;
 `;
 
-const Menu = styled.ul`
+const Menu = styled(AntdMenu)`
   list-style: none;
   display: flex;
   align-items: center;
   margin: 0;
   padding: 0;
+  background: transparent;
   @media (max-width: 768px) {
     display: none;
   }
@@ -114,6 +116,7 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const { removeUserInfo } = useAuthStore();
   const navigate = useNavigate();
 
   const toggleMobileMenu = () => {
@@ -123,6 +126,23 @@ const Header = () => {
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
   };
+
+  const handleLogout = () => {
+    removeUserInfo();
+    localStorage.clear();
+    navigate("/");
+  };
+
+  const avatarMenu = (
+    <Menu>
+      <Menu.Item key="1">
+        <Link to="/profile">Profile</Link>
+      </Menu.Item>
+      <Menu.Item key="2">
+        <Button onClick={handleLogout}>Logout</Button>
+      </Menu.Item>
+    </Menu>
+  );
 
   useEffect(() => {
     const handleScroll = () => {
@@ -182,18 +202,23 @@ const Header = () => {
             <>
               <MenuItem>
                 <Link to="/search">
-                  <SearchOutlined style={{ color: color.primary }} />
+                  <SearchOutlined
+                    style={{
+                      color: color.primary,
+                      backgroundColor: "transperent",
+                    }}
+                  />
                 </Link>
               </MenuItem>
               <MenuItem>
-                <Tooltip placement="bottom" title="Profile" arrowPointAtCenter>
-                  <Link to="/profile">
+                <Link to="/profile">
+                  <Dropdown overlay={avatarMenu}>
                     <Avatar
                       style={{ border: `1px solid ${color.secondary}` }}
                       src="https://xsgames.co/randomusers/avatar.php?g=pixel"
                     />
-                  </Link>
-                </Tooltip>
+                  </Dropdown>
+                </Link>
               </MenuItem>
             </>
           ) : (
@@ -213,6 +238,7 @@ const Header = () => {
             <MobileMenuItem onClick={() => navigate("/search")}>
               Search
             </MobileMenuItem>
+            <MobileMenuItem onClick={handleLogout}>Logout</MobileMenuItem>
           </>
         ) : (
           <MobileMenuItem onClick={handleMobileMenuItemClick}>

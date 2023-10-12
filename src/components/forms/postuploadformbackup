@@ -102,45 +102,36 @@ const SuccessMessage = styled.div`
   text-align: center;
 `;
 
-const VideoUploadComponent = () => {
+const PostUploadComponent = () => {
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
   const [tags, setTags] = useState("");
-  const [videoFile, setVideoFile] = useState(null);
-  const [thumbnailFile, setThumbnailFile] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
   useEffect(() => {
-    // Disable video input after selecting a file
-    const videoInput = document.getElementById("videoInput");
-    if (videoInput) videoInput.disabled = !!videoFile;
-  }, [videoFile]);
+    // Disable image input after selecting a file
+    const imageInput = document.getElementById("imageInput");
+    if (imageInput) imageInput.disabled = !!imageFile;
+  }, [imageFile]);
 
   const resetForm = () => {
     setTitle("");
-    setDescription("");
     setTags("");
-    setVideoFile(null);
-    setThumbnailFile(null);
+    setImageFile(null);
     setIsSuccess(false);
     setError("");
   };
 
-  const handleVideoUpload = (event) => {
+  const handleImageUpload = (event) => {
     const file = event.target.files[0];
-    setVideoFile(file);
-  };
-
-  const handleThumbnailUpload = (event) => {
-    const file = event.target.files[0];
-    setThumbnailFile(file);
+    setImageFile(file);
   };
 
   const handleUpload = async () => {
-    if (!title || !videoFile || !thumbnailFile) {
-      setError("Title, Video, and Thumbnail are required");
+    if (!title || !imageFile) {
+      setError("Title and Image are required.");
       return;
     }
 
@@ -149,22 +140,20 @@ const VideoUploadComponent = () => {
 
     try {
       const formData = new FormData();
-      formData.append("title", title);
-      formData.append("description", description);
+      formData.append("content", title);
       formData.append("tags", tags);
-      formData.append("fileData", videoFile);
-      formData.append("fileData", thumbnailFile);
+      formData.append("fileData", imageFile);
 
-      await apiCall("/videos/", "POST", formData);
+      await apiCall("/posts/", "POST", formData);
 
       setIsLoading(false);
       setIsSuccess(true);
-      message.success("Video uploaded successfully!");
+      message.success("Image uploaded successfully!");
       resetForm();
     } catch (error) {
       setIsLoading(false);
-      console.error("Error uploading video:", error);
-      setError("An error occurred while uploading the video.");
+      console.error("Error uploading image:", error);
+      setError("An error occurred while uploading the image.");
     }
   };
 
@@ -172,22 +161,14 @@ const VideoUploadComponent = () => {
     <LoadingSpinner spinning={isLoading}>
       <FormContainer>
         <StyledForm>
-          <FormTitle>Upload Your Video</FormTitle>
+          <FormTitle>Upload Your Post</FormTitle>
 
-          <StyledLabel>Title:</StyledLabel>
+          <StyledLabel>Content:</StyledLabel>
           <StyledInput
             type="text"
-            placeholder="Enter your title"
+            placeholder="Enter your post content"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-          />
-
-          <StyledLabel>Description:</StyledLabel>
-          <StyledInput
-            type="text"
-            placeholder="Enter your description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
           />
 
           <StyledLabel>Tags:</StyledLabel>
@@ -202,36 +183,24 @@ const VideoUploadComponent = () => {
             <StyledFileInputButton>
               <input
                 type="file"
-                accept="video/*"
-                onChange={handleVideoUpload}
-                id="videoInput"
-                style={{ display: "none" }}
-              />
-              <UploadIcon />
-              <FileInputText>Upload Video</FileInputText>
-            </StyledFileInputButton>
-          </div>
-          <div>
-            <StyledFileInputButton>
-              <input
-                type="file"
                 accept="image/*"
-                onChange={handleThumbnailUpload}
+                onChange={handleImageUpload}
+                id="imageInput"
                 style={{ display: "none" }}
               />
               <UploadIcon />
-              <FileInputText>Upload Thumbnail</FileInputText>
+              <FileInputText>Upload Image</FileInputText>
             </StyledFileInputButton>
           </div>
 
           {error && <ErrorText>{error}</ErrorText>}
 
           {isSuccess && (
-            <SuccessMessage>Video uploaded successfully!</SuccessMessage>
+            <SuccessMessage>Image uploaded successfully!</SuccessMessage>
           )}
 
           <StyledButton disabled={isLoading} onClick={handleUpload}>
-            {isLoading ? "Uploading..." : "Upload Video"}
+            {isLoading ? "Uploading..." : "Upload Image"}
           </StyledButton>
         </StyledForm>
       </FormContainer>
@@ -239,4 +208,4 @@ const VideoUploadComponent = () => {
   );
 };
 
-export default VideoUploadComponent;
+export default PostUploadComponent;
