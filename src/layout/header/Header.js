@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { SearchOutlined, CloseOutlined, MenuOutlined } from "@ant-design/icons";
 import logo from "../../assets/finallogo.png";
-import { Avatar, Button, Dropdown, Menu as AntdMenu, Tooltip } from "antd";
+import { Avatar, Button, Dropdown, Menu as AntdMenu } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { isAuth } from "../../utils/auth";
 import { color } from "../../utils/color";

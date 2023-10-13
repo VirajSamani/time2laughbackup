@@ -14,20 +14,31 @@ const customIcons = {
 
 const CustomRate = styled(Rate)`
   .anticon {
-    color: black;
+    color: gray;
   }
   & .ant-rate-star-full .anticon {
     color: ${color.primary};
   }
 `;
 
-const Rating = ({ rate }) => (
-  <>
+const RatingContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  color: ${color.primary};
+`;
+
+const Rating = ({ rate, isReviewAllowed, onRate, yourRate }) => (
+  <RatingContainer>
     <CustomRate
-      disabled={true}
-      defaultValue={rate}
+      disabled={isReviewAllowed ? false : true}
+      defaultValue={isReviewAllowed ? yourRate || 0 : rate}
+      onChange={onRate}
       character={({ index }) => customIcons[index + 1]}
     />
-  </>
+    {isReviewAllowed ? `${rate || 0}` : ""}
+  </RatingContainer>
 );
+
 export default Rating;

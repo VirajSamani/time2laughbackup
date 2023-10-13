@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Button, Row, Col } from "antd";
+import { Button, Row, Col } from "antd";
 import styled from "styled-components";
 import { color } from "../../utils/color";
 import CustomCard from "../customCard/CustomCard";

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { apiCall } from "../../utils/apiCall";
 import CustomCard from "../customCard/CustomCard";
 import { useParams } from "react-router-dom";
-import { Button, Form, Modal, message } from "antd";
+import { Button, Modal } from "antd";
 import VideoUploadForm from "../forms/VideoUploadForm";
 import { UploadOutlined } from "@ant-design/icons";
 import { color } from "../../utils/color";

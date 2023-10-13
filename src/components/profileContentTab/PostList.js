@@ -6,6 +6,8 @@ import CustomCard from "../customCard/CustomCard";
 import { UploadOutlined } from "@ant-design/icons";
 import { color } from "../../utils/color";
 import PostUploadComponent from "../forms/PostUploadForm";
+import useAuthStore from "../../store/authStore";
+import useProfileStore from "../../store/profileStore";
 
 const PostListContainer = styled.div`
   max-height: 830px; /* Set the maximum height you desire */
@@ -70,6 +72,11 @@ const PostList = () => {
   const [posts, setPosts] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const { user } = useAuthStore();
+  const { profile } = useProfileStore();
+
+  const showUploadButton = user.id === profile?._id;
+
   const getPostList = () => {
     apiCall("/posts/").then((response) => {
       setPosts(response);
@@ -91,10 +98,12 @@ const PostList = () => {
 
   return (
     <PostListContainer>
-      <UploadButton type="primary" onClick={showModal} className="icon">
-        <UploadOutlined />
-        Upload Post
-      </UploadButton>
+      {showUploadButton && (
+        <UploadButton type="primary" onClick={showModal} className="icon">
+          <UploadOutlined />
+          Upload Post
+        </UploadButton>
+      )}
       <PostListWrapper>
         {posts.length === 0 ? (
           <NoPostsMessage>

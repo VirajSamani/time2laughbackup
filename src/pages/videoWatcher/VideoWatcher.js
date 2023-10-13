@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Section from "../../styled-common-components/Section";
 import CustomContainer from "../../styled-common-components/CustomContainer";
 import VideoPlayer from "../../components/videoPlayer/VideoPlayer";
@@ -7,7 +7,6 @@ import { useLoader } from "../../context/LoaderContext";
 import { apiCall } from "../../utils/apiCall";
 import styled from "styled-components";
 import Rating from "../../components/rating/Rating";
-import ProfileAvatar from "../../components/badges/ProfileAvatar";
 import MetaProifile from "../../components/MetaProfile/MetaProifle";
 
 const DetailWrapper = styled.div`
@@ -52,9 +51,21 @@ const VideoWatcher = () => {
       });
   };
 
+  const handleRatingChange = (rating) => {
+    // api call for rating will be called here
+    apiCall(`/videos/rating/${data._id}`, "POST", { rate: rating }).then(
+      (response) => {
+        setData({ ...data, rating: response.rating });
+      }
+    );
+    console.log(rating);
+  };
+
   useEffect(() => {
     getVideoData();
   }, [id]);
+
+  console.log(data)
 
   return (
     <Section>
@@ -73,7 +84,12 @@ const VideoWatcher = () => {
       <CustomContainer loading={loading}>
         <DetailWrapper>
           <Title>{data.title}</Title>
-          <Rating rate={data.rating} />
+          <Rating
+            rate={data.rating}
+            yourRate={data.yourReview}
+            onRate={handleRatingChange}
+            isReviewAllowed={true}
+          />
           <MetaProifile username={data.username} nickName={data.nickName} />
           <Description>{data.description}</Description>
         </DetailWrapper>

@@ -1,17 +1,50 @@
+import { CheckCircleOutlined, UploadOutlined } from "@ant-design/icons";
 import { createContext, useEffect, useState } from "react";
+import styled from "styled-components";
+import { color } from "../../utils/color";
 
-// Create a context to manage the script loading state
 const CloudinaryScriptContext = createContext();
 
-function CloudinaryUploadWidget({ uwConfig, setSecureUrl }) {
+const StyledFileInputButton = styled.button`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border: 1px dashed ${color.secondary};
+  border-radius: 5px;
+  background-color: transparent;
+  transition: border 0.3s;
+  color: ${color.secondary};
+  width: 100%;
+
+  &:hover {
+    border: 1px dashed #0056b3;
+  }
+
+  /* Add this CSS class to make the button green */
+  &.green {
+    border: 1px dashed #4caf50;
+    color: #4caf50;
+  }
+`;
+
+const UploadIcon = styled(UploadOutlined)`
+  font-size: 24px;
+`;
+
+const FileInputText = styled.span`
+  margin-left: 10px;
+`;
+
+function CloudinaryUploadWidget({ type, secureUrl, uwConfig, setSecureUrl }) {
   const [loaded, setLoaded] = useState(false);
 
+  const label = { video: "Video", image: "Image" };
+  console.log(secureUrl)
   useEffect(() => {
-    // Check if the script is already loaded
-    if (!loaded) {
+    if (!secureUrl) {
       const uwScript = document.getElementById("uw");
       if (!uwScript) {
-        // If not loaded, create and load the script
         const script = document.createElement("script");
         script.setAttribute("async", "");
         script.setAttribute("id", "uw");
@@ -19,14 +52,13 @@ function CloudinaryUploadWidget({ uwConfig, setSecureUrl }) {
         script.addEventListener("load", () => setLoaded(true));
         document.body.appendChild(script);
       } else {
-        // If already loaded, update the state
         setLoaded(true);
       }
     }
   }, [loaded]);
 
   const initializeCloudinaryWidget = () => {
-    if (loaded) {
+    if (!secureUrl) {
       var myWidget = window.cloudinary.createUploadWidget(
         uwConfig,
         (error, result) => {
@@ -48,13 +80,15 @@ function CloudinaryUploadWidget({ uwConfig, setSecureUrl }) {
 
   return (
     <CloudinaryScriptContext.Provider value={{ loaded }}>
-      <button
+      <StyledFileInputButton
         id="upload_widget"
-        className="cloudinary-button"
         onClick={initializeCloudinaryWidget}
+        className={secureUrl ? "green" : ""}
+        disabled={secureUrl}
       >
-        Upload
-      </button>
+        {secureUrl ? <CheckCircleOutlined /> : <UploadIcon />}
+        <FileInputText>Upload {label[type]}</FileInputText>
+      </StyledFileInputButton>
     </CloudinaryScriptContext.Provider>
   );
 }

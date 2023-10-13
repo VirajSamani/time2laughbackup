@@ -8,12 +8,8 @@ const TrendingImage = styled.img`
   width: 100%;
   object-fit: cover;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-  transition: filter 0.3s, box-shadow 0.3s, transform 0.3s;
+  transition: filter 0.3s, box-shadow 0.3s;
   overflow: hidden;
-
-  &:hover {
-    transform: scale(1.05); /* Add a slight zoom effect on hover */
-  }
 
   @media (max-width: 768px) {
     height: 60vh;

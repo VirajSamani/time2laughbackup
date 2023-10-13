@@ -59,7 +59,7 @@ const Discovery = () => {
 
   const queryParams = new URLSearchParams(location.search);
   const search = queryParams.get("search");
-  const category = queryParams.get("category");
+  // const category = queryParams.get("category");
 
   const callSearchAPI = () => {
     setLoading(true);

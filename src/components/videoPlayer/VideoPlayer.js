@@ -4,6 +4,7 @@ import styled from "styled-components";
 const VideoWrapper = styled.div`
   width: 100%;
   background-color: #0f0f0f;
+  position: relative;
 `;
 
 const VideoContainer = styled.div`

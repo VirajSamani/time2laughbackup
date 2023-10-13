@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { apiCall } from "../../utils/apiCall";
-import { UploadOutlined } from "@ant-design/icons";
 import { Spin, message } from "antd";
 
 const StyledForm = styled.div`
@@ -56,14 +55,6 @@ const StyledInput = styled.input`
   margin-bottom: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
-`;
-
-const FileInputText = styled.span`
-  margin-left: 10px;
-`;
-
-const UploadIcon = styled(UploadOutlined)`
-  font-size: 24px;
 `;
 
 const LoadingSpinner = styled(Spin)`
