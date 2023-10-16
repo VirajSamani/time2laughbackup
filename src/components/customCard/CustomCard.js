@@ -152,7 +152,7 @@ const CustomCard = ({ data, type, width }) => {
           />
         </Link>
         <Tooltip>
-          {data?.title?.slice(0, 40) || data.content.slice(0, 40)}
+          {data?.title?.slice(0, 40) || data?.content?.slice(0, 40)}
         </Tooltip>
       </ContentWrapper>
     </CardContainer>

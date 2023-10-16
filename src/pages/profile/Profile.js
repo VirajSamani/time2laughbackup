@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 
@@ -14,6 +14,10 @@ import { useLoader } from "../../context/LoaderContext";
 import useProfileStore from "../../store/profileStore";
 import ProfileContentTab from "../../components/profileContentTab/ProfileContentTab";
 import SubInfo from "../../components/subInfo/SubInfo";
+import { Button, Modal } from "antd";
+import { EditOutlined } from "@ant-design/icons";
+import { color } from "../../utils/color";
+import EditProfileForm from "../../components/forms/EditProfileForm";
 
 const Container = styled(CustomContainer)`
   background-color: #0f0f0f;
@@ -39,10 +43,38 @@ const MainTitle = styled.h1`
   color: #ddd;
 `;
 
+const TitleDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const EditButton = styled(Button)`
+  && {
+    background-color: ${color.primary};
+    border-color: ${color.primary};
+    color: #000; // Text color
+    :hover {
+      background-color: ${color.secondary};
+      color: #000; // Text colors
+    }
+  }
+`;
+
 const Profile = () => {
   const { username } = useParams();
   const { profile, addProfileInfo } = useProfileStore();
   const { showLoader, hideLoader } = useLoader();
+
+  const [isEditing, setIsEditing] = useState(false); // State for the modal
+
+  const openEditModal = () => {
+    setIsEditing(true);
+  };
+
+  const closeEditModal = () => {
+    setIsEditing(false);
+  };
 
   useEffect(() => {
     showLoader();
@@ -56,7 +88,12 @@ const Profile = () => {
   return (
     <Section>
       <Container>
-        <MainTitle>Comedian Profile</MainTitle>
+        <TitleDiv>
+          <MainTitle>Comedian Profile</MainTitle>
+          <EditButton onClick={openEditModal} icon={<EditOutlined />}>
+            Edit
+          </EditButton>
+        </TitleDiv>
         <UserProfileCard />
         <Flex flexWrap="wrap">
           <UserDetailsWrapper>
@@ -87,6 +124,14 @@ const Profile = () => {
       <br />
       <br />
       <br />
+      <Modal
+        title="Edit Profile"
+        visible={isEditing}
+        onCancel={closeEditModal}
+        footer={null}
+      >
+        <EditProfileForm data={profile} />
+      </Modal>
     </Section>
   );
 };

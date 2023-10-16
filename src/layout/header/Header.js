@@ -194,7 +194,7 @@ const Header = () => {
           {mobileMenuOpen ? (
             <CloseIcon onClick={closeMobileMenu} />
           ) : (
-            <MenuOutlined style={{ fontSize: "20px" }} />
+            <MenuOutlined style={{ fontSize: "20px", color: color.primary }} />
           )}
         </MobileMenuButton>
         <Menu>

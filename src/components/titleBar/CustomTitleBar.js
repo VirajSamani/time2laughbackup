@@ -3,6 +3,7 @@ import { Typography } from "antd";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { color } from "../../utils/color";
+import { isAuth } from "../../utils/auth";
 
 const { Title } = Typography;
 
@@ -34,11 +35,11 @@ const MainTitle = styled(Title)`
   margin: 0; /* Remove default margin */
 `;
 
-const CustomTitleBar = ({ title, seeMoreLink }) => {
+const CustomTitleBar = ({ title  }) => {
   return (
     <TitleBar>
       <MainTitle level={3}>{title}</MainTitle>
-      <SeeMoreLink to={seeMoreLink || "/login"}>See More</SeeMoreLink>
+      <SeeMoreLink to={isAuth() ? "/discovery" :"/login"}>See More</SeeMoreLink>
     </TitleBar>
   );
 };

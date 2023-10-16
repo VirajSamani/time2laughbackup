@@ -8,6 +8,7 @@ import { color } from "../../utils/color";
 import PostUploadComponent from "../forms/PostUploadForm";
 import useAuthStore from "../../store/authStore";
 import useProfileStore from "../../store/profileStore";
+import { useParams } from "react-router-dom";
 
 const PostListContainer = styled.div`
   max-height: 830px; /* Set the maximum height you desire */
@@ -69,6 +70,8 @@ const FunnySVG = styled.svg`
 `;
 
 const PostList = () => {
+  const { username } = useParams();
+
   const [posts, setPosts] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -78,7 +81,7 @@ const PostList = () => {
   const showUploadButton = user.id === profile?._id;
 
   const getPostList = () => {
-    apiCall("/posts/").then((response) => {
+    apiCall(username ? `/posts/user/${username}` : "/posts/").then((response) => {
       setPosts(response);
     });
   };

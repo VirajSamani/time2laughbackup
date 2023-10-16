@@ -11,6 +11,7 @@ import SearchPage from "../pages/search/SearchPage";
 import Discovery from "../components/discover/Discovery";
 import ForgotPass from "../pages/forgotPass/ForgotPass";
 import ResetPass from "../pages/forgotPass/ResetPass";
+import PostWatcher from "../pages/postWatcher/PostWatcher";
 
 const Routers = () => {
   return (
@@ -24,6 +25,7 @@ const Routers = () => {
         <Route path="/profile" Component={Profile} />
         <Route path="/profile/:username" Component={Profile} />
         <Route path="/video/:id" Component={VideoWatcher} />
+        <Route path="/post/:id" Component={PostWatcher} />
         <Route path="/search" Component={SearchPage} />
         <Route path="/discovery" Component={Discovery} />
       </Route>

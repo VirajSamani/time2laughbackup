@@ -6,6 +6,9 @@ import Rating from "../rating/Rating";
 import { UploadOutlined } from "@ant-design/icons";
 import { color } from "../../utils/color";
 import JokeUploadComponent from "../forms/JokeUploadForm";
+import useAuthStore from "../../store/authStore";
+import useProfileStore from "../../store/profileStore";
+import { useParams } from "react-router-dom";
 
 const JokeListContainer = styled.div`
   max-height: 830px; /* Set the maximum height you desire */
@@ -82,11 +85,18 @@ const FunnySVG = styled.svg`
 `;
 
 const JokeList = () => {
+  const { username } = useParams();
+
   const [jokes, setJokes] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const { user } = useAuthStore();
+  const { profile } = useProfileStore();
+
+  const showUploadButton = user.id === profile?._id;
+
   const getJokeList = () => {
-    apiCall("/jokes/").then((response) => {
+    apiCall(username ? `/jokes/user/${username}` : "/jokes/").then((response) => {
       setJokes(response);
     });
   };
@@ -106,10 +116,12 @@ const JokeList = () => {
 
   return (
     <JokeListContainer>
-      <UploadButton type="primary" onClick={showModal} className="icon">
-        <UploadOutlined />
-        Upload Joke
-      </UploadButton>
+      {showUploadButton && (
+        <UploadButton type="primary" onClick={showModal} className="icon">
+          <UploadOutlined />
+          Upload Joke
+        </UploadButton>
+      )}
       <JokeListWrapper>
         {jokes.length === 0 ? (
           <NoJokesMessage>
