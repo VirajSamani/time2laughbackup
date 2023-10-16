@@ -7,10 +7,12 @@ import AuthHome from "./AuthHome";
 import Header from "../../layout/header/Header";
 import Section from "../../styled-common-components/Section";
 import TrendingTopVideo from "../../components/Trending/TrendingTopVideo";
+import useProfileStore from "../../store/profileStore";
 
 const Home = () => {
   const { user, addUserInfo } = useAuthStore();
   const { showLoader, hideLoader } = useLoader();
+  const { addProfileInfo } = useProfileStore();
 
   let home = <UnAuthHome />;
 
@@ -25,6 +27,7 @@ const Home = () => {
         .then((response) => {
           if (response) {
             addUserInfo(response);
+            addProfileInfo(response);
           } else {
             addUserInfo(response);
             localStorage.clear();

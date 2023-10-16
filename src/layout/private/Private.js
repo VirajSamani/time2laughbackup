@@ -4,9 +4,11 @@ import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { useLoader } from "../../context/LoaderContext";
 import { apiCall } from "../../utils/apiCall";
 import Header from "../header/Header";
+import useProfileStore from "../../store/profileStore";
 
 const Private = () => {
   const { user, addUserInfo } = useAuthStore();
+  const { addProfileInfo } = useProfileStore();
   const { showLoader } = useLoader();
   const navigate = useNavigate();
 
@@ -26,6 +28,7 @@ const Private = () => {
       // hideLoader();
       if (response) {
         addUserInfo(response);
+        addProfileInfo(response);
       } else {
         addUserInfo(response);
         localStorage.clear();

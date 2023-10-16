@@ -8,7 +8,7 @@ import Section from "../../styled-common-components/Section";
 
 import UserProfileCard from "../../components/userProfileCard/UserProfileCard";
 import IntroPlayer from "../../components/introPlayer/IntroPlayer";
-import Achievements from "../../components/achivements/Achivements"; // Corrected import
+import Achievements from "../../components/achivements/Achivements";
 import { apiCall } from "../../utils/apiCall";
 import { useLoader } from "../../context/LoaderContext";
 import useProfileStore from "../../store/profileStore";
@@ -130,7 +130,7 @@ const Profile = () => {
         onCancel={closeEditModal}
         footer={null}
       >
-        <EditProfileForm data={profile} />
+        <EditProfileForm closeEditModal={closeEditModal} data={profile} setData={addProfileInfo} />
       </Modal>
     </Section>
   );

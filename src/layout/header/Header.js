@@ -8,6 +8,7 @@ import { isAuth } from "../../utils/auth";
 import { color } from "../../utils/color";
 import LoginButton from "../../components/buttons/LoginButton";
 import useAuthStore from "../../store/authStore";
+import useProfileStore from "../../store/profileStore";
 
 const HeaderSection = styled.div`
   background: ${(props) => (props.isScrolled ? "black" : "transparent")};
@@ -117,6 +118,7 @@ const Header = () => {
   const [isHidden, setIsHidden] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const { removeUserInfo } = useAuthStore();
+  const { profile } = useProfileStore();
   const navigate = useNavigate();
 
   const toggleMobileMenu = () => {
@@ -215,7 +217,10 @@ const Header = () => {
                   <Dropdown overlay={avatarMenu}>
                     <Avatar
                       style={{ border: `1px solid ${color.secondary}` }}
-                      src="https://xsgames.co/randomusers/avatar.php?g=pixel"
+                      src={
+                        profile?.profilePicture ||
+                        "https://xsgames.co/randomusers/avatar.php?g=pixel"
+                      }
                     />
                   </Dropdown>
                 </Link>

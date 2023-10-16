@@ -119,7 +119,7 @@ const PostWatcher = () => {
         <ThumbnailImage src={data.thumbnail} alt={data.title} />
         <DetailWrapper>
           <Title>{data.content}</Title>
-          <MetaProifile username={data.username} nickName={data.nickName} />
+          <MetaProifile profilePicture={data.profilePicture} username={data.username} nickName={data.nickName} />
         </DetailWrapper>
         <ActionHandler
           onEditClick={openEditModal}

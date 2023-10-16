@@ -13,20 +13,16 @@ const MetaWrapper = styled.div`
 const MetaTitle = styled(Link)`
   font-size: 18px;
   text-decoration: none;
-  color: #333; 
+  color: #333;
 `;
 
-const MetaProifile = ({ username, nickName }) => {
+const MetaProifile = ({ profielPicture, username, nickName }) => {
   return (
     <>
       <MetaWrapper>
-        <ProfileAvatar username={username} />
+        <ProfileAvatar profielPicture={profielPicture} username={username} />
         <MetaTitle to={`/profile/${username}`}>
-          <NamePlate
-            nickName={nickName}
-            username={username}
-            verified={true}
-          />
+          <NamePlate nickName={nickName} username={username} verified={true} />
         </MetaTitle>
       </MetaWrapper>
     </>
