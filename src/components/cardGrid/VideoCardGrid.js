@@ -11,7 +11,6 @@ const GridContainer = styled.div`
 `;
 
 const VideoCardGrid = ({ data }) => {
-  console.log(data);
   return (
     <GridContainer>
       {data.map((video) => (

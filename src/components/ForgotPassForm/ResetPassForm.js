@@ -41,18 +41,18 @@ const RightAlignedButtonWrapper = styled.div`
 `;
 
 const SubmitButton = styled(Button)`
-  border-radius: 3.2px !important; /* Reduced border radius */
-  font-size: 14.4px !important; /* Reduced font size */
+  border-radius: 3.2px !important;
+  font-size: 14.4px !important;
   font-weight: bold !important;
-  margin: 19.2px 0 9.6px !important; /* Reduced margin */
+  margin: 19.2px 0 9.6px !important;
   background-color: ${color.primary} !important;
   border: none !important;
-  padding: 8px !important; /* Reduced padding */
+  padding: 8px !important;
   height: fit-content !important;
-  width: 24%; /* Reduced width */
+  width: 24%;
 
   @media (max-width: 768px) {
-    font-size: 11.2px !important; /* Further reduced font size */
+    font-size: 11.2px !important;
   }
 
   &:hover {
@@ -68,10 +68,10 @@ const NavLink = styled(Link)`
 const CustomInput = styled(Input)`
   background-color: #333333;
   border: none;
-  height: 40px; /* Reduced height */
+  height: 40px;
   color: white;
-  font-size: 12.8px; /* Reduced font size */
-  margin-bottom: 22.4px !important; /* Reduced margin */
+  font-size: 12.8px;
+  margin-bottom: 22.4px !important;
 
   &::placeholder {
     color: #ffffff70;

@@ -18,6 +18,7 @@ import { Button, Modal } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import { color } from "../../utils/color";
 import EditProfileForm from "../../components/forms/EditProfileForm";
+import useAuthStore from "../../store/authStore";
 
 const Container = styled(CustomContainer)`
   background-color: #0f0f0f;
@@ -63,6 +64,7 @@ const EditButton = styled(Button)`
 
 const Profile = () => {
   const { username } = useParams();
+  const { user } = useAuthStore();
   const { profile, addProfileInfo } = useProfileStore();
   const { showLoader, hideLoader } = useLoader();
 
@@ -85,19 +87,25 @@ const Profile = () => {
     });
   }, []);
 
+  const isShowEditButton = user._id === profile._id;
   return (
     <Section>
       <Container>
         <TitleDiv>
           <MainTitle>Comedian Profile</MainTitle>
-          <EditButton onClick={openEditModal} icon={<EditOutlined />}>
-            Edit
-          </EditButton>
+          {isShowEditButton && (
+            <EditButton onClick={openEditModal} icon={<EditOutlined />}>
+              Edit
+            </EditButton>
+          )}
         </TitleDiv>
         <UserProfileCard />
         <Flex flexWrap="wrap">
           <UserDetailsWrapper>
-            <IntroPlayer />
+            <IntroPlayer
+              video={profile.introVideo}
+              thumbnail={profile.introThumbnail}
+            />
             <SubInfo
               title="About"
               infoText={profile.about || "This is about."}
@@ -130,7 +138,11 @@ const Profile = () => {
         onCancel={closeEditModal}
         footer={null}
       >
-        <EditProfileForm closeEditModal={closeEditModal} data={profile} setData={addProfileInfo} />
+        <EditProfileForm
+          closeEditModal={closeEditModal}
+          data={profile}
+          setData={addProfileInfo}
+        />
       </Modal>
     </Section>
   );

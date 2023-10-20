@@ -1,12 +1,13 @@
 import React from "react";
 import useAuthStore from "../../store/authStore";
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useLoader } from "../../context/LoaderContext";
 import { apiCall } from "../../utils/apiCall";
 import Header from "../header/Header";
 import useProfileStore from "../../store/profileStore";
 
 const Private = () => {
+  const location = useLocation();
   const { user, addUserInfo } = useAuthStore();
   const { addProfileInfo } = useProfileStore();
   const { showLoader } = useLoader();
@@ -28,7 +29,9 @@ const Private = () => {
       // hideLoader();
       if (response) {
         addUserInfo(response);
-        addProfileInfo(response);
+        if (location.pathname.split("/")[1] !== "profile") {
+          addProfileInfo(response);
+        }
       } else {
         addUserInfo(response);
         localStorage.clear();

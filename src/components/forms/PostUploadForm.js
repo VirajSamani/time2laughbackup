@@ -157,8 +157,6 @@ const PostUploadComponent = () => {
     }
   };
 
-  console.log(secureUrl);
-
   return (
     <LoadingSpinner spinning={isLoading}>
       <FormContainer>

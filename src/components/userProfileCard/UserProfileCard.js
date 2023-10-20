@@ -107,7 +107,7 @@ const UserProfileCard = () => {
   const { user } = useAuthStore();
   const { profile } = useProfileStore();
 
-  const showFollowButton = user.id !== profile?._id;
+  const showFollowButton = user._id !== profile?._id;
 
   return (
     <Card>

@@ -40,7 +40,7 @@ function CloudinaryUploadWidget({ type, secureUrl, uwConfig, setSecureUrl }) {
   const [loaded, setLoaded] = useState(false);
 
   const label = { video: "Video", image: "Image" };
-  console.log(secureUrl)
+
   useEffect(() => {
     if (!secureUrl) {
       const uwScript = document.getElementById("uw");

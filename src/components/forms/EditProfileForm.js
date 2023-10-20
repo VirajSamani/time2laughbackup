@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Form, Input, Button, Modal, message } from "antd";
+import Stepper from "react-stepper-horizontal";
 import Cloudinary from "../Cloudinary/Cloudinary";
 import { apiCall } from "../../utils/apiCall";
 
@@ -14,6 +15,9 @@ const ThumbnailImage = styled.img`
 `;
 
 const EditProfileForm = ({ closeEditModal, data, setData }) => {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [videoFile, setVideoFile] = useState(null);
+  const [thumbnailFile, setThumbnailFile] = useState(null);
   const [isImageModalVisible, setImageModalVisible] = useState(false);
   const [isVideoModalVisible, setVideoModalVisible] = useState(false);
   const [secureUrl, setSecureUrl] = useState("");
@@ -33,7 +37,6 @@ const EditProfileForm = ({ closeEditModal, data, setData }) => {
   };
 
   const okImageModal = () => {
-    console.log(secureUrl);
     if (secureUrl) {
       const payload = { profilePicture: secureUrl };
       apiCall("/comedian", "PATCH", payload).then((response) => {
@@ -48,8 +51,6 @@ const EditProfileForm = ({ closeEditModal, data, setData }) => {
     setVideoModalVisible(false);
   };
 
-  const okVideoModal = () => {};
-
   const onFinish = (values) => {
     // Handle form submission, e.g., updating the user's profile
     if (values.nickname) {
@@ -62,10 +63,27 @@ const EditProfileForm = ({ closeEditModal, data, setData }) => {
         })
         .finally(closeEditModal);
     }
-    console.log("Form values:", values);
   };
 
-  console.log("data", data);
+  const handleNextStep = () => {
+    // Handle moving to the next step
+    if (currentStep === 0 && videoFile) {
+      setCurrentStep(currentStep + 1);
+    } else if (currentStep === 1 && thumbnailFile && videoFile) {
+      const payload = {
+        introVideo: videoFile,
+        introThumbnail: thumbnailFile,
+      };
+      apiCall("/comedian", "PATCH", payload)
+        .then((response) => {
+          setData({ ...data, nickName: response.nickName });
+          message.success("Profile updated successfully.");
+          setImageModalVisible(false);
+        })
+        .finally(closeVideoModal);
+      message.success("Intro Video and Thumbnail updated successfully.");
+    }
+  };
 
   return (
     <EditProfileFormWrapper>
@@ -122,10 +140,28 @@ const EditProfileForm = ({ closeEditModal, data, setData }) => {
       <Modal
         title="Edit Intro Video"
         visible={isVideoModalVisible}
-        onOk={okVideoModal}
+        onOk={handleNextStep}
         onCancel={closeVideoModal}
+        okText={currentStep === 0 ? "Next" : "Save"}
       >
-        {/* Your profile image update form goes here */}
+        <Stepper
+          steps={[{ title: "Upload Video" }, { title: "Upload Thumbnail" }]}
+          activeStep={currentStep}
+        />
+        {currentStep === 0 && (
+          <Cloudinary
+            type="video"
+            secureUrl={videoFile}
+            setSecureUrl={setVideoFile}
+          />
+        )}
+        {currentStep === 1 && (
+          <Cloudinary
+            type="image"
+            secureUrl={thumbnailFile}
+            setSecureUrl={setThumbnailFile}
+          />
+        )}
       </Modal>
     </EditProfileFormWrapper>
   );
